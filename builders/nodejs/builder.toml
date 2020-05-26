@@ -1,0 +1,16 @@
+# Buildpacks to include in builder
+[[buildpacks]]
+id = "com.redhat.faas.nodejs"
+image = "bosonproject/faas-nodejs-bp"
+
+[[order]]
+[[order.group]]
+id = "com.redhat.faas.nodejs"
+
+# Stack that will be used by the builder
+[stack]
+    id = "com.redhat.faas.stacks.nodejs"
+    # This image is used at runtime
+    run-image = "bosonproject/faas-stack-run:nodejs"
+    # This image is used at build-time
+    build-image = "bosonproject/faas-stack-build:nodejs"

@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -e
+set -o pipefail
+
+echo "---> Node.js Functions Buildpack"
+
+bp_dir=$(cd "$(dirname "$0")"/..; pwd)
+build_dir=$(pwd)
+layers_dir=$1
+platform_dir=$2
+
+source "$bp_dir/lib/build.sh"
+rm -rf "$build_dir/node_modules"
+
+install_or_reuse_tools "$layers_dir/tools"
+export PATH=$layers_dir/tools/bin:$PATH
+
+install_or_reuse_invoker "$bp_dir" "$build_dir" "$layers_dir/.invoker"
+install_or_reuse_node_modules "$build_dir" "$layers_dir/node_modules"
+
+cat <<TOML > "${layers_dir}/launch.toml"
+[[processes]]
+type = "web"
+command = "cd .invoker && npm start"
+TOML
