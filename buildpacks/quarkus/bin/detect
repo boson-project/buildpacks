@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+echo "detect has been called"
+
+if [[ ! -f pom.xml ]] ; then
+  exit 1
+fi
+

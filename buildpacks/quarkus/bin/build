@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -e
+set -o pipefail
+
+echo "$@"
+
+echo "---> Quarkus Functions Buildpack"
+
+build_dir=$(pwd)
+bp_dir=$(cd "$(dirname "$0")"/..; pwd)
+layers_dir=$1
+platform_dir=$2
+
+
+mvn_repo_layer="${layers_dir}/mvn_repo"
+
+mkdir -p "${mvn_repo_layer}"
+cat <<TOML > "${mvn_repo_layer}.toml"
+launch = false
+build = true
+cache = true
+TOML
+
+mvn -B -Dmaven.repo.local="${mvn_repo_layer}" package -DskipTests -Pnative
+app=$(find target -iname "*-runner")
+
+app_layer="${layers_dir}/app"
+mkdir -p "${app_layer}"
+cat <<TOML > "${app_layer}.toml"
+launch = true
+build = false
+cache = false
+TOML
+
+cp "${app}" "${app_layer}/application"
+rm -fr target src pom.xml
+
+cat <<TOML > "${layers_dir}/launch.toml"
+[[processes]]
+type = "web"
+command = "${app_layer}/application -Dquarkus.http.host=0.0.0.0"
+TOML
