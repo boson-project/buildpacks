@@ -1,0 +1,16 @@
+# Buildpacks to include in builder
+[[buildpacks]]
+id = "com.redhat.faas.quarkus"
+image = "bosonproject/faas-quarkus-bp"
+
+[[order]]
+[[order.group]]
+id = "com.redhat.faas.quarkus"
+
+# Stack that will be used by the builder
+[stack]
+    id = "com.redhat.faas.stacks.quarkus"
+    # This image is used at runtime
+    run-image = "bosonproject/faas-stack-run:quarkus"
+    # This image is used at build-time
+    build-image = "bosonproject/faas-stack-build:quarkus"
