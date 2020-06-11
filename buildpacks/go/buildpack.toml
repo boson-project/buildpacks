@@ -1,0 +1,9 @@
+api = "0.2"
+
+[buildpack]
+id = "com.redhat.faas.go"
+version = "0.0.1"
+name = "Go Function Buildpack"
+
+[[stacks]]
+id = "com.redhat.faas.stacks.go"

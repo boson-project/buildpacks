@@ -1,14 +1,13 @@
 ## Boson Project Buildpacks
 
-This repository contains the necessary code to create a CNCF buildpack for
-Node.js functions.
+This repository contains the necessary code to create CNCF buildpacks for functions.
 
 ### Usage
 
 Run `make all` to ensure that you have all of the necessary images created
 and available in your local Docker daemon.
 
-### Building a Sample Application
+### Building a Sample Node.js Application
 
 Set your default builder to the one that you just created.
 

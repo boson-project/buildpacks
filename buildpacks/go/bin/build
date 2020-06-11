@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "---> Go Buildpack"
+
+build_dir="$(pwd)"
+bp_dir=$(cd "$(dirname "$0")"/..; pwd)
+layers_dir="$1"
+
+# INJECT INVOCATION SCAFFOLDING (main)
+cp -r $bp_dir/faas $build_dir/faas
+mkdir -p bin
+go build -o bin/faas ./faas
+
+# PLACE COMPILED BINARY IN APP LAYER FOR LAUNCH
+app_layer="$layers_dir/app"
+mkdir -p "$app_layer"
+cat > "$app_layer.toml" << EOF
+launch = true
+build = false
+cache = false
+EOF
+
+cp ./bin/faas "$app_layer/faas"
+
+# REMOVE SOURCE CODE FROM FINAL CONTAINER
+rm -rf /workspace/*
+
+# LAUNCHER
+cat > "$layers_dir/launch.toml" << EOF
+[[processes]]
+type = "web"
+command = "$app_layer/faas -V"
+EOF
