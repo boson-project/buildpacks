@@ -3,7 +3,7 @@ set -e
 
 ID_PREFIX="com.redhat.faas.stacks"
 
-REPOSITORY=bosonproject
+REPOSITORY=quay.io/boson
 DEFAULT_PREFIX=faas-stack
 
 REPO_PREFIX=${REPOSITORY}/${DEFAULT_PREFIX}

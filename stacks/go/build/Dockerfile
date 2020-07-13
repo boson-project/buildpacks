@@ -1,4 +1,4 @@
-FROM bosonproject/faas-stack-build:ubi8
+FROM quay.io/boson/faas-stack-build:ubi8
 
 ARG stack_id
 ENV CNB_STACK_ID=${stack_id}
