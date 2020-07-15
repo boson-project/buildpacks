@@ -4,7 +4,7 @@ set -eo pipefail
 dep_xpath='/*[local-name()="project"]'
 dep_xpath+='/*[local-name()="dependencies"]'
 dep_xpath+='/*[local-name()="dependency"]'
-dep_xpath+='/*[local-name()="artifactId" and text()="quarkus-funqy-knative-events"]'
+dep_xpath+='/*[local-name()="artifactId" and contains(.,"quarkus-funqy")]'
 
 if ! xmllint --xpath "${dep_xpath}" pom.xml > /dev/null 2> /dev/null; then
   exit 1
