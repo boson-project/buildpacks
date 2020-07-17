@@ -8,18 +8,24 @@ DEFAULT_PREFIX=faas-stack
 
 REPO_PREFIX=${REPOSITORY}/${DEFAULT_PREFIX}
 
+VERSION=tip
+
 usage() {
   echo "Usage: "
-  echo "  $0 [-p <prefix>] <dir>"
+  echo "  $0 [-p <prefix>] [-v <version>] <dir>"
   echo "    -p    prefix to use for images      (default: ${DEFAULT_PREFIX})"
   echo "   <dir>  directory of stack to build"
   exit 1;
 }
 
+
 while getopts "v:p:" o; do
   case "${o}" in
     p)
       REPO_PREFIX=${REPOSITORY}/${OPTARG}
+      ;;
+    v)
+      VERSION=${OPTARG}
       ;;
     \?)
       echo "Invalid option: -$OPTARG" 1>&2
@@ -49,7 +55,7 @@ fi
 
 DIR=$(cd $(dirname $0) && pwd)
 IMAGE_DIR=$(realpath "${STACK_DIR}")
-TAG=$(basename "${IMAGE_DIR}")
+TAG=$(basename "${IMAGE_DIR}")-${VERSION}
 STACK_ID="${ID_PREFIX}.$(basename "${IMAGE_DIR}")"
 BASE_IMAGE=${REPO_PREFIX}-base:${TAG}
 RUN_IMAGE=${REPO_PREFIX}-run:${TAG}
@@ -60,10 +66,10 @@ if [ -d "${IMAGE_DIR}/base" ] ;  then
 fi
 
 echo "BUILDING ${BUILD_IMAGE}..."
-docker build --build-arg "base_image=${BASE_IMAGE}" --build-arg "stack_id=${STACK_ID}" -t "${BUILD_IMAGE}"  "${IMAGE_DIR}/build"
+docker build --build-arg "base_image=${BASE_IMAGE}" --build-arg "stack_id=${STACK_ID}" --build-arg "version=${VERSION}" -t "${BUILD_IMAGE}"  "${IMAGE_DIR}/build"
 
 echo "BUILDING ${RUN_IMAGE}..."
-docker build --build-arg "base_image=${BASE_IMAGE}" --build-arg "stack_id=${STACK_ID}" -t "${RUN_IMAGE}" "${IMAGE_DIR}/run"
+docker build --build-arg "base_image=${BASE_IMAGE}" --build-arg "stack_id=${STACK_ID}" --build-arg "version=${VERSION}" -t "${RUN_IMAGE}" "${IMAGE_DIR}/run"
 
 echo
 echo "STACK BUILT!"

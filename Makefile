@@ -20,11 +20,11 @@ GO_BUILDPACK_REPO      := quay.io/boson/faas-go-bp
 all: stacks buildpacks builders
 
 stacks:
-	./stacks/build-stack.sh stacks/ubi8
-	./stacks/build-stack.sh stacks/ubi8-minimal
-	./stacks/build-stack.sh stacks/nodejs
-	./stacks/build-stack.sh stacks/quarkus
-	./stacks/build-stack.sh stacks/go
+	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/ubi8
+	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/ubi8-minimal
+	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/nodejs
+	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/quarkus
+	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/go
 
 buildpacks:
 	$(PACK_CMD) package-buildpack $(NODEJS_BUILDPACK_REPO):$(VERSION_TAG) --package-config ./packages/nodejs/package.toml
@@ -32,25 +32,30 @@ buildpacks:
 	$(PACK_CMD) package-buildpack $(GO_BUILDPACK_REPO):$(VERSION_TAG) --package-config ./packages/go/package.toml
 
 builders:
-	$(PACK_CMD) create-builder $(NODEJS_BUILDER_REPO):$(VERSION_TAG) --builder-config ./builders/nodejs/builder.toml
-	$(PACK_CMD) create-builder $(QUARKUS_BUILDER_REPO):$(VERSION_TAG) --builder-config ./builders/quarkus/builder.toml
-	$(PACK_CMD) create-builder $(GO_BUILDER_REPO):$(VERSION_TAG) --builder-config ./builders/go/builder.toml
+	TMP_BLDRS=$(shell mktemp -d) && \
+	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/nodejs/builder.toml > $$TMP_BLDRS/node.toml && \
+	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/quarkus/builder.toml > $$TMP_BLDRS/quarkus.toml && \
+	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/go/builder.toml > $$TMP_BLDRS/go.toml && \
+	$(PACK_CMD) create-builder $(NODEJS_BUILDER_REPO):$(VERSION_TAG) --builder-config $$TMP_BLDRS/node.toml && \
+	$(PACK_CMD) create-builder $(QUARKUS_BUILDER_REPO):$(VERSION_TAG) --builder-config $$TMP_BLDRS/quarkus.toml && \
+	$(PACK_CMD) create-builder $(GO_BUILDER_REPO):$(VERSION_TAG) --builder-config $$TMP_BLDRS/go.toml && \
+	rm -fr $$TMP_BLDRS
 
 publish:
-	docker push $(BASE_REPO):ubi8-minimal
-	docker push $(BASE_REPO):ubi8
+	docker push $(BASE_REPO):ubi8-minimal-$(VERSION_TAG)
+	docker push $(BASE_REPO):ubi8-$(VERSION_TAG)
 
-	docker push $(BUILD_REPO):ubi8-minimal
-	docker push $(BUILD_REPO):ubi8
-	docker push $(BUILD_REPO):go
-	docker push $(BUILD_REPO):quarkus
-	docker push $(BUILD_REPO):nodejs
+	docker push $(BUILD_REPO):ubi8-minimal-$(VERSION_TAG)
+	docker push $(BUILD_REPO):ubi8-$(VERSION_TAG)
+	docker push $(BUILD_REPO):go-$(VERSION_TAG)
+	docker push $(BUILD_REPO):quarkus-$(VERSION_TAG)
+	docker push $(BUILD_REPO):nodejs-$(VERSION_TAG)
 
-	docker push $(RUN_REPO):go
-	docker push $(RUN_REPO):quarkus
-	docker push $(RUN_REPO):nodejs
-	docker push $(RUN_REPO):ubi8-minimal
-	docker push $(RUN_REPO):ubi8
+	docker push $(RUN_REPO):go-$(VERSION_TAG)
+	docker push $(RUN_REPO):quarkus-$(VERSION_TAG)
+	docker push $(RUN_REPO):nodejs-$(VERSION_TAG)
+	docker push $(RUN_REPO):ubi8-minimal-$(VERSION_TAG)
+	docker push $(RUN_REPO):ubi8-$(VERSION_TAG)
 
 	docker push $(QUARKUS_BUILDPACK_REPO):$(VERSION_TAG)
 	docker push $(NODEJS_BUILDPACK_REPO):$(VERSION_TAG)

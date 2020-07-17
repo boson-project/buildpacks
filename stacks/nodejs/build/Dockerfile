@@ -1,4 +1,5 @@
-FROM quay.io/boson/faas-stack-build:ubi8
+ARG version=tip
+FROM quay.io/boson/faas-stack-build:ubi8-${version}
 
 ARG stack_id
 ENV CNB_STACK_ID=${stack_id}
