@@ -45,22 +45,18 @@ publish:
 	docker push $(BASE_REPO):ubi8-minimal-$(VERSION_TAG)
 	docker push $(BASE_REPO):ubi8-$(VERSION_TAG)
 
-	docker push $(BUILD_REPO):ubi8-minimal-$(VERSION_TAG)
-	docker push $(BUILD_REPO):ubi8-$(VERSION_TAG)
-	docker push $(BUILD_REPO):go-$(VERSION_TAG)
-	docker push $(BUILD_REPO):quarkus-$(VERSION_TAG)
-	docker push $(BUILD_REPO):nodejs-$(VERSION_TAG)
+	for i in go quarkus nodejs ubi8-minimal ubi8; do \
+	    docker push $(RUN_REPO):$$i-$(VERSION_TAG); \
+	    docker push $(BUILD_REPO):$$i-$(VERSION_TAG); \
+	done
 
-	docker push $(RUN_REPO):go-$(VERSION_TAG)
-	docker push $(RUN_REPO):quarkus-$(VERSION_TAG)
-	docker push $(RUN_REPO):nodejs-$(VERSION_TAG)
-	docker push $(RUN_REPO):ubi8-minimal-$(VERSION_TAG)
-	docker push $(RUN_REPO):ubi8-$(VERSION_TAG)
-
-	docker push $(QUARKUS_BUILDPACK_REPO):$(VERSION_TAG)
-	docker push $(NODEJS_BUILDPACK_REPO):$(VERSION_TAG)
-	docker push $(GO_BUILDPACK_REPO):$(VERSION_TAG)
-
-	docker push $(QUARKUS_BUILDER_REPO):$(VERSION_TAG)
-	docker push $(NODEJS_BUILDER_REPO):$(VERSION_TAG)
-	docker push $(GO_BUILDER_REPO):$(VERSION_TAG)
+	if [[ "$(VERSION_TAG)" == "tip" ]]; then \
+		versions="tip"; \
+	else \
+	  	versions="$(VERSION_TAG) latest"; \
+	fi;\
+	for img in $(QUARKUS_BUILDPACK_REPO) $(NODEJS_BUILDPACK_REPO) $(GO_BUILDPACK_REPO) $(QUARKUS_BUILDER_REPO) $(NODEJS_BUILDER_REPO) $(GO_BUILDER_REPO); do \
+		for v in $$versions; do \
+			docker push $$img:$$v; \
+		done \
+	done
