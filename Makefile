@@ -50,13 +50,10 @@ publish:
 	    docker push $(BUILD_REPO):$$i-$(VERSION_TAG); \
 	done
 
-	if [[ "$(VERSION_TAG)" == "tip" ]]; then \
-		versions="tip"; \
-	else \
-	  	versions="$(VERSION_TAG) latest"; \
-	fi;\
 	for img in $(QUARKUS_BUILDPACK_REPO) $(NODEJS_BUILDPACK_REPO) $(GO_BUILDPACK_REPO) $(QUARKUS_BUILDER_REPO) $(NODEJS_BUILDER_REPO) $(GO_BUILDER_REPO); do \
-		for v in $$versions; do \
-			docker push $$img:$$v; \
-		done \
+		docker push $$img:$(VERSION_TAG); \
+		if [[ "$(VERSION_TAG)" != "tip" ]]; then \
+		    docker tag $$img:$(VERSION_TAG) $$img:latest; \
+		    docker push $$img:latest; \
+		fi \
 	done
