@@ -12,7 +12,7 @@ and available in your local Docker daemon.
 Set your default builder to the one that you just created.
 
 ```console
-pack set-default-builder boson/faas-nodejs-builder
+pack set-default-builder quay.io/boson/faas-nodejs-builder
 ```
 
 Then you can build a Node.js function app.
