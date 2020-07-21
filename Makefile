@@ -52,7 +52,7 @@ publish:
 
 	for img in $(QUARKUS_BUILDPACK_REPO) $(NODEJS_BUILDPACK_REPO) $(GO_BUILDPACK_REPO) $(QUARKUS_BUILDER_REPO) $(NODEJS_BUILDER_REPO) $(GO_BUILDER_REPO); do \
 		docker push $$img:$(VERSION_TAG); \
-		if [[ "$(VERSION_TAG)" != "tip" ]]; then \
+		if [ "$(VERSION_TAG)" != "tip" ]; then \
 		    docker tag $$img:$(VERSION_TAG) $$img:latest; \
 		    docker push $$img:latest; \
 		fi \
