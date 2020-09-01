@@ -10,8 +10,7 @@
     "test": "FUNCTION_PATH=./test/fixtures tape test/test.js | tap-spec"
   },
   "dependencies": {
-    "@redhat/faas-js-runtime": "0.2.0",
-    "cloudevents-sdk": "v1.0.0",
+    "@redhat/faas-js-runtime": "0.2.1",
     "overload-protection": "^1.1.0"
   },
   "devDependencies": {
