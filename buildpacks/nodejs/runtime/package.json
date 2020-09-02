@@ -10,8 +10,8 @@
     "test": "FUNCTION_PATH=./test/fixtures tape test/test.js | tap-spec"
   },
   "dependencies": {
-    "@redhat/faas-js-runtime": "0.2.1",
-    "overload-protection": "^1.1.0"
+    "@redhat/faas-js-runtime": "0.2.2",
+    "death": "^1.1.0"
   },
   "devDependencies": {
     "supertest": "^4.0.2",
