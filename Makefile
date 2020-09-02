@@ -27,18 +27,18 @@ stacks:
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/go
 
 buildpacks:
-	$(PACK_CMD) package-buildpack $(NODEJS_BUILDPACK_REPO):$(VERSION_TAG) --package-config ./packages/nodejs/package.toml
-	$(PACK_CMD) package-buildpack $(QUARKUS_BUILDPACK_REPO):$(VERSION_TAG) --package-config ./packages/quarkus/package.toml
-	$(PACK_CMD) package-buildpack $(GO_BUILDPACK_REPO):$(VERSION_TAG) --package-config ./packages/go/package.toml
+	$(PACK_CMD) package-buildpack $(NODEJS_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/nodejs/package.toml
+	$(PACK_CMD) package-buildpack $(QUARKUS_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/quarkus/package.toml
+	$(PACK_CMD) package-buildpack $(GO_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/go/package.toml
 
 builders:
 	TMP_BLDRS=$(shell mktemp -d) && \
 	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/nodejs/builder.toml > $$TMP_BLDRS/node.toml && \
 	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/quarkus/builder.toml > $$TMP_BLDRS/quarkus.toml && \
 	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/go/builder.toml > $$TMP_BLDRS/go.toml && \
-	$(PACK_CMD) create-builder $(NODEJS_BUILDER_REPO):$(VERSION_TAG) --builder-config $$TMP_BLDRS/node.toml && \
-	$(PACK_CMD) create-builder $(QUARKUS_BUILDER_REPO):$(VERSION_TAG) --builder-config $$TMP_BLDRS/quarkus.toml && \
-	$(PACK_CMD) create-builder $(GO_BUILDER_REPO):$(VERSION_TAG) --builder-config $$TMP_BLDRS/go.toml && \
+	$(PACK_CMD) create-builder $(NODEJS_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/node.toml && \
+	$(PACK_CMD) create-builder $(QUARKUS_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/quarkus.toml && \
+	$(PACK_CMD) create-builder $(GO_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/go.toml && \
 	rm -fr $$TMP_BLDRS
 
 publish:
