@@ -7,5 +7,5 @@ dep_xpath+='/*[local-name()="dependency"]'
 dep_xpath+='/*[local-name()="artifactId" and contains(.,"quarkus-funqy")]'
 
 if ! xmllint --xpath "${dep_xpath}" pom.xml > /dev/null 2> /dev/null; then
-  exit 1
+  exit 100
 fi
