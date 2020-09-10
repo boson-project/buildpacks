@@ -1,16 +1,22 @@
-# Deploy artifacts for any pushes with a version tag (releases).
-name: Releases
+name: CI
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - "master"
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
+      - uses: GoogleCloudPlatform/release-please-action@v2.1.1
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          release-type: simple
+
       - uses: actions/checkout@v2
+
       - name: Determine download URL for latest pack
         id: pack-download-url
         uses: actions/github-script@v2
@@ -25,6 +31,7 @@ jobs:
                   .filter(a => a.name.includes("linux"))
                   .map(a => a.browser_download_url)[0];
             })
+
       - name: Install pack
         run: |
           curl -s -L -o pack.tgz ${{ steps.pack-download-url.outputs.result }}
@@ -34,6 +41,7 @@ jobs:
         run: PACK_CMD=./pack make
 
       - name: Push Images
+        if: ${{ steps.release.outputs.release_created }}
         env:
           USER: ${{ secrets.QUAY_USER }}
           PASS: ${{ secrets.QUAY_TOKEN }}
