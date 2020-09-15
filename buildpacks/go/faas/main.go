@@ -99,7 +99,6 @@ func run() error {
 		}
 		return client.StartReceiver(ctx, handler)
 	}
-
 }
 
 // if the handler signature is compatible with http handler the function returns an instance of `http.Handler`,
@@ -107,14 +106,14 @@ func run() error {
 func toHttpHandler(handler interface{}, ctx context.Context) http.Handler {
 
 	if f, ok := handler.(func(rw http.ResponseWriter, req *http.Request)); ok {
-		return http.HandlerFunc(f)
+		return recoverMiddleware(http.HandlerFunc(f))
 	}
 
 	if f, ok := handler.(func(ctx context.Context, rw http.ResponseWriter, req *http.Request)); ok {
 		ff := func(rw http.ResponseWriter, req *http.Request) {
 			f(ctx, rw, req)
 		}
-		return http.HandlerFunc(ff)
+		return recoverMiddleware(http.HandlerFunc(ff))
 	}
 
 	return nil
