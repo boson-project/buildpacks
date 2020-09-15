@@ -23,9 +23,10 @@ jobs:
         with:
           result-encoding: string
           script: |
-            return github.repos.getLatestRelease({
+            return github.repos.getReleaseByTag({
                 owner: "buildpacks",
-                repo: "pack"
+                repo: "pack",
+                tag: "v0.13.1"
             }).then(result => {
                 return result.data.assets
                   .filter(a => a.name.includes("linux"))
