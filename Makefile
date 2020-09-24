@@ -10,10 +10,12 @@ RUN_REPO   := quay.io/boson/faas-stack-run
 QUARKUS_BUILDER_REPO := quay.io/boson/faas-quarkus-builder
 NODEJS_BUILDER_REPO  := quay.io/boson/faas-nodejs-builder
 GO_BUILDER_REPO      := quay.io/boson/faas-go-builder
+QUARKUS_JVM_BUILDER_REPO := quay.io/boson/faas-quarkus-jvm-builder
 
 QUARKUS_BUILDPACK_REPO := quay.io/boson/faas-quarkus-bp
 NODEJS_BUILDPACK_REPO  := quay.io/boson/faas-nodejs-bp
 GO_BUILDPACK_REPO      := quay.io/boson/faas-go-bp
+QUARKUS_JVM_BUILDPACK_REPO := quay.io/boson/faas-quarkus-jvm-bp
 
 .PHONY: stacks buildpacks builders
 
@@ -25,11 +27,13 @@ stacks:
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/nodejs
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/quarkus
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/go
+	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/quarkus-jvm
 
 buildpacks:
 	$(PACK_CMD) package-buildpack $(NODEJS_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/nodejs/package.toml
 	$(PACK_CMD) package-buildpack $(QUARKUS_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/quarkus/package.toml
 	$(PACK_CMD) package-buildpack $(GO_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/go/package.toml
+	$(PACK_CMD) package-buildpack $(QUARKUS_JVM_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/quarkus-jvm/package.toml
 
 builders:
 	TMP_BLDRS=$(shell mktemp -d) && \
@@ -39,6 +43,8 @@ builders:
 	$(PACK_CMD) create-builder $(NODEJS_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/node.toml && \
 	$(PACK_CMD) create-builder $(QUARKUS_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/quarkus.toml && \
 	$(PACK_CMD) create-builder $(GO_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/go.toml && \
+	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/quarkus-jvm/builder.toml > $$TMP_BLDRS/quarkus-jvm.toml && \
+	$(PACK_CMD) create-builder $(QUARKUS_JVM_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/quarkus-jvm.toml && \
 	rm -fr $$TMP_BLDRS
 
 publish:
