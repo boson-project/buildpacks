@@ -1,9 +1,9 @@
 api = "0.2"
 
 [buildpack]
-id = "com.redhat.faas.quarkus"
+id = "com.redhat.faas.quarkus-jvm"
 version = "0.0.1"
 name = "Quarkus Function Buildpack"
 
 [[stacks]]
-id = "com.redhat.faas.stacks.quarkus"
+id = "com.redhat.faas.stacks.quarkus-jvm"
