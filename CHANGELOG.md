@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.3.0](https://www.github.com/boson-project/buildpacks/compare/v0.2.3...v0.3.0) (2020-09-29)
+
+
+### Features
+
+* JVM mode builds for Quarkus ([ba10da7](https://www.github.com/boson-project/buildpacks/commit/ba10da7eb9d9db9c0d21d0722083fe439d282de3))
+* recover from panic in user function ([090ceb4](https://www.github.com/boson-project/buildpacks/commit/090ceb48fe6fc118a14eebe81b4fb89775e0e1a9))
+* **ci/cd:** add automated releases with release-please ([#24](https://www.github.com/boson-project/buildpacks/issues/24)) ([4ac12b7](https://www.github.com/boson-project/buildpacks/commit/4ac12b7029e92030704e5112009445fd62f2a586))
+
 ## [0.2.3](https://www.github.com/boson-project/buildpacks/compare/v0.1.0...v0.2.3) (2020-09-09)
 
 
