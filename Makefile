@@ -7,15 +7,15 @@ BASE_REPO  := quay.io/boson/faas-stack-base
 BUILD_REPO := quay.io/boson/faas-stack-build
 RUN_REPO   := quay.io/boson/faas-stack-run
 
-QUARKUS_NATIVE_BUILDER_REPO := quay.io/boson/faas-quarkus-native-builder
 NODEJS_BUILDER_REPO  := quay.io/boson/faas-nodejs-builder
 GO_BUILDER_REPO      := quay.io/boson/faas-go-builder
 QUARKUS_JVM_BUILDER_REPO := quay.io/boson/faas-quarkus-jvm-builder
+QUARKUS_NATIVE_BUILDER_REPO := quay.io/boson/faas-quarkus-native-builder
 
-QUARKUS_NATIVE_BUILDPACK_REPO := quay.io/boson/faas-quarkus-native-bp
 NODEJS_BUILDPACK_REPO  := quay.io/boson/faas-nodejs-bp
 GO_BUILDPACK_REPO      := quay.io/boson/faas-go-bp
 QUARKUS_JVM_BUILDPACK_REPO := quay.io/boson/faas-quarkus-jvm-bp
+QUARKUS_NATIVE_BUILDPACK_REPO := quay.io/boson/faas-quarkus-native-bp
 
 .PHONY: stacks buildpacks builders
 
@@ -25,15 +25,15 @@ stacks:
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/ubi8
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/ubi8-minimal
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/nodejs
-	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/quarkus-native
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/go
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/quarkus-jvm
+	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/quarkus-native
 
 buildpacks:
 	$(PACK_CMD) package-buildpack $(NODEJS_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/nodejs/package.toml
-	$(PACK_CMD) package-buildpack $(QUARKUS_NATIVE_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/quarkus-native/package.toml
 	$(PACK_CMD) package-buildpack $(GO_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/go/package.toml
 	$(PACK_CMD) package-buildpack $(QUARKUS_JVM_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/quarkus-jvm/package.toml
+	$(PACK_CMD) package-buildpack $(QUARKUS_NATIVE_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/quarkus-native/package.toml
 
 builders:
 	TMP_BLDRS=$(shell mktemp -d) && \
@@ -42,9 +42,9 @@ builders:
 	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/go/builder.toml > $$TMP_BLDRS/go.toml && \
 	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/quarkus-jvm/builder.toml > $$TMP_BLDRS/quarkus-jvm.toml && \
 	$(PACK_CMD) create-builder $(NODEJS_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/node.toml && \
-	$(PACK_CMD) create-builder $(QUARKUS_NATIVE_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/quarkus-native.toml && \
 	$(PACK_CMD) create-builder $(GO_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/go.toml && \
 	$(PACK_CMD) create-builder $(QUARKUS_JVM_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/quarkus-jvm.toml && \
+	$(PACK_CMD) create-builder $(QUARKUS_NATIVE_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/quarkus-native.toml && \
 	rm -fr $$TMP_BLDRS
 
 publish:
@@ -56,7 +56,7 @@ publish:
 	    docker push $(BUILD_REPO):$$i-$(VERSION_TAG); \
 	done
 
-	for img in $(QUARKUS_NATIVE_BUILDPACK_REPO) $(QUARKUS_JVM_BUILDPACK_REPO) $(NODEJS_BUILDPACK_REPO) $(GO_BUILDPACK_REPO) $(QUARKUS_NATIVE_BUILDER_REPO) $(QUARKUS_JVM_BUILDER_REPO) $(NODEJS_BUILDER_REPO) $(GO_BUILDER_REPO); do \
+	for img in $(QUARKUS_NATIVE_BUILDPACK_REPO) $(QUARKUS_JVM_BUILDPACK_REPO) $(QUARKUS_NATIVE_BUILDER_REPO) $(QUARKUS_JVM_BUILDER_REPO) $(NODEJS_BUILDPACK_REPO) $(GO_BUILDPACK_REPO) $(NODEJS_BUILDER_REPO) $(GO_BUILDER_REPO); do \
 		docker push $$img:$(VERSION_TAG); \
 		if [ "$(VERSION_TAG)" != "tip" ]; then \
 		    docker tag $$img:$(VERSION_TAG) $$img:latest; \
