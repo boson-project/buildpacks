@@ -16,6 +16,8 @@ jobs:
           release-type: simple
 
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Determine download URL for latest pack
         id: pack-download-url
