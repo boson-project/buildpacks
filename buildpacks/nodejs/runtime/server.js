@@ -1,6 +1,6 @@
 'use strict';
 
-const framework = require('@redhat/faas-js-runtime');
+const framework = require('faas-js-runtime');
 const ON_DEATH = require('death')({ uncaughtException: true });
 
 const functionPath = process.env.FUNCTION_PATH || '../';
