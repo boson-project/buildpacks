@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"net/http"
@@ -10,6 +11,8 @@ import (
 	"strconv"
 	"syscall"
 	"time"
+
+	"github.com/gorilla/mux"
 
 	cloudevents "github.com/cloudevents/sdk-go/v2"
 
@@ -47,58 +50,69 @@ func run() error {
 		cancel()
 	}()
 
+	// Use a gorilla mux for handling all HTTP requests
+	router := mux.NewRouter()
+
+	// Add handlers for readiness and liveness endpoints
+	router.HandleFunc("/health/{endpoint:readiness|liveness}", func(w http.ResponseWriter, r *http.Request) {
+		json.NewEncoder(w).Encode(map[string]bool{"ok": true})
+	})
+
 	var handler interface{} = function.Handle
 
 	httpHandler := toHttpHandler(handler, ctx)
 
-	if httpHandler != nil {
-		httpServer := &http.Server{
-			Addr:           fmt.Sprintf(":%d", *port),
-			Handler:        httpHandler,
-			ReadTimeout:    1 * time.Minute,
-			WriteTimeout:   1 * time.Minute,
-			MaxHeaderBytes: 1 << 20,
-		}
-
-		listenAndServeErr := make(chan error, 1)
-		go func() {
-			if *verbose {
-				fmt.Printf("listening on http port %v for HTTP requests\n", *port)
-			}
-			err := httpServer.ListenAndServe()
-			cancel()
-			listenAndServeErr <- err
-		}()
-
-		<- ctx.Done()
-		shutdownCtx, shutdownCancelFn := context.WithTimeout(context.Background(), time.Second * 5)
-		defer shutdownCancelFn()
-		err := httpServer.Shutdown(shutdownCtx)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "error on server shutdown: %v\n", err)
-		}
-
-		err = <-listenAndServeErr
-		if http.ErrServerClosed == err {
-			return nil
-		}
-		return err
-	} else {
-		transport, err := cloudevents.NewHTTP(
-			cloudevents.WithPort(*port),
-			cloudevents.WithPath("/"))
-		if err != nil {
-			return err
-		}
-		client, err := cloudevents.NewClient(transport)
-		if err != nil {
-			return err
-		}
+	if httpHandler == nil {
 		if *verbose {
-			fmt.Printf("listening on http port %v for JSON-encoded CloudEvents\n", *port)
+			fmt.Printf("Initializing CloudEvent function\n")
 		}
-		return client.StartReceiver(ctx, handler)
+		protocol, err := cloudevents.NewHTTP(
+			cloudevents.WithPort(*port),
+			cloudevents.WithPath("/"),
+		)
+		if err != nil {
+			return err
+		}
+		eventHandler, err := cloudevents.NewHTTPReceiveHandler(ctx, protocol, handler)
+		router.Handle("/", eventHandler)
+	} else {
+		if *verbose {
+			fmt.Printf("Initializing HTTP function\n")
+		}
+		router.Handle("/", httpHandler)
 	}
+
+	httpServer := &http.Server{
+		Addr:           fmt.Sprintf(":%d", *port),
+		Handler:        router,
+		ReadTimeout:    1 * time.Minute,
+		WriteTimeout:   1 * time.Minute,
+		MaxHeaderBytes: 1 << 20,
+	}
+
+	listenAndServeErr := make(chan error, 1)
+	go func() {
+		if *verbose {
+			fmt.Printf("listening on http port %v\n", *port)
+		}
+		err := httpServer.ListenAndServe()
+		cancel()
+		listenAndServeErr <- err
+	}()
+
+	<-ctx.Done()
+	shutdownCtx, shutdownCancelFn := context.WithTimeout(context.Background(), time.Second*5)
+	defer shutdownCancelFn()
+	err := httpServer.Shutdown(shutdownCtx)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error on server shutdown: %v\n", err)
+	}
+
+	err = <-listenAndServeErr
+	if http.ErrServerClosed == err {
+		return nil
+	}
+	return err
 }
 
 // if the handler signature is compatible with http handler the function returns an instance of `http.Handler`,
