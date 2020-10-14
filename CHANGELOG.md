@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://www.github.com/boson-project/buildpacks/compare/v0.3.2...v0.4.0) (2020-10-14)
+
+
+### Features
+
+* add health liveness and readiness endpoints to go buildpack ([#34](https://www.github.com/boson-project/buildpacks/issues/34)) ([105470d](https://www.github.com/boson-project/buildpacks/commit/105470db93f200e23f63a46f034ed1de06ed0c97))
+
 ## [0.3.0](https://www.github.com/boson-project/buildpacks/compare/v0.2.3...v0.3.0) (2020-09-29)
 
 
