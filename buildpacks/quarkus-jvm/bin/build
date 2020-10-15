@@ -41,5 +41,5 @@ rm -fr target src pom.xml
 cat <<TOML > "${layers_dir}/launch.toml"
 [[processes]]
 type = "web"
-command = "JAVA_APP_DIR=${app_layer} run-java.sh"
+command = 'JAVA_APP_DIR=${app_layer} JAVA_OPTIONS="\${JAVA_OPTIONS} -Dquarkus.http.host=0.0.0.0 -Dquarkus.http.port=\${PORT} -Djava.util.logging.manager=org.jboss.logmanager.LogManager" run-java.sh'
 TOML

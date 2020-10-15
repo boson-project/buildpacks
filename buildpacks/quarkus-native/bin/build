@@ -38,5 +38,5 @@ rm -fr target src pom.xml
 cat <<TOML > "${layers_dir}/launch.toml"
 [[processes]]
 type = "web"
-command = "${app_layer}/application -Dquarkus.http.host=0.0.0.0"
+command = "${app_layer}/application -Dquarkus.http.host=0.0.0.0 -Dquarkus.http.port=\${PORT} -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
 TOML
