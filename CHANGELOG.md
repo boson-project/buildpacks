@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.4.1](https://www.github.com/boson-project/buildpacks/compare/v0.4.0...v0.4.1) (2020-11-17)
+
+
+### Bug Fixes
+
+* **deps:** sync node.js builder with faas CLI ([#43](https://www.github.com/boson-project/buildpacks/issues/43)) ([f441ea2](https://www.github.com/boson-project/buildpacks/commit/f441ea227cdbacb03e081b49d30edcda1301843d))
+
 ## [0.4.0](https://www.github.com/boson-project/buildpacks/compare/v0.3.2...v0.4.0) (2020-10-14)
 
 
