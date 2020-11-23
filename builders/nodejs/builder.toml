@@ -1,16 +1,16 @@
 # Buildpacks to include in builder
 [[buildpacks]]
-id = "com.redhat.faas.nodejs"
+id = "dev.boson.nodejs"
 image = "quay.io/boson/faas-nodejs-bp:{{VERSION}}"
 
 [[order]]
 [[order.group]]
-id = "com.redhat.faas.nodejs"
+id = "dev.boson.nodejs"
 
 # Stack that will be used by the builder
 [stack]
-    id = "com.redhat.faas.stacks.nodejs"
-    # This image is used at runtime
-    run-image = "quay.io/boson/faas-stack-run:nodejs-{{VERSION}}"
-    # This image is used at build-time
-    build-image = "quay.io/boson/faas-stack-build:nodejs-{{VERSION}}"
+id = "dev.boson.stacks.nodejs"
+# This image is used at runtime
+run-image = "quay.io/boson/faas-stack-run:nodejs-{{VERSION}}"
+# This image is used at build-time
+build-image = "quay.io/boson/faas-stack-build:nodejs-{{VERSION}}"

@@ -1,15 +1,15 @@
 # Buildpacks to include in builder
 [[buildpacks]]
-id = "com.redhat.faas.springboot"
+id = "dev.boson.springboot"
 image = "quay.io/boson/faas-springboot-bp:{{VERSION}}"
 
 [[order]]
 [[order.group]]
-id = "com.redhat.faas.springboot"
+id = "dev.boson.springboot"
 
 # Stack that will be used by the builder
 [stack]
-id = "com.redhat.faas.stacks.springboot"
+id = "dev.boson.stacks.springboot"
 # This image is used at runtime
 run-image = "quay.io/boson/faas-stack-run:springboot-{{VERSION}}"
 # This image is used at build-time

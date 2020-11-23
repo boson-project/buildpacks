@@ -1,12 +1,12 @@
 [[buildpacks]]
-id = "com.redhat.faas.go"
+id = "dev.boson.go"
 image = "quay.io/boson/faas-go-bp:{{VERSION}}"
 
 [[order]]
 [[order.group]]
-id = "com.redhat.faas.go"
+id = "dev.boson.go"
 
 [stack]
-    id = "com.redhat.faas.stacks.go"
-    build-image = "quay.io/boson/faas-stack-build:go-{{VERSION}}"
-    run-image = "quay.io/boson/faas-stack-run:go-{{VERSION}}"
+id = "dev.boson.stacks.go"
+build-image = "quay.io/boson/faas-stack-build:go-{{VERSION}}"
+run-image = "quay.io/boson/faas-stack-run:go-{{VERSION}}"
