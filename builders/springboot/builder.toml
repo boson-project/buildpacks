@@ -9,8 +9,8 @@ id = "com.redhat.faas.springboot"
 
 # Stack that will be used by the builder
 [stack]
-    id = "com.redhat.faas.stacks.springboot"
-    # This image is used at runtime
-    run-image = "quay.io/boson/faas-stack-run:springboot-{{VERSION}}"
-    # This image is used at build-time
-    build-image = "quay.io/boson/faas-stack-build:springboot-{{VERSION}}"
+id = "com.redhat.faas.stacks.springboot"
+# This image is used at runtime
+run-image = "quay.io/boson/faas-stack-run:springboot-{{VERSION}}"
+# This image is used at build-time
+build-image = "quay.io/boson/faas-stack-build:springboot-{{VERSION}}"
