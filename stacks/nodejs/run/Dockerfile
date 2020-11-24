@@ -7,7 +7,7 @@ LABEL io.buildpacks.stack.id=${stack_id}
 
 USER root
 COPY ./nodejs.module /etc/dnf/modules.d
-RUN microdnf install -y nodejs tar
+RUN microdnf install --nodocs -y nodejs tar
 
 ENV HOME /projects/node-function
 WORKDIR $HOME
