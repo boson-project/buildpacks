@@ -9,8 +9,8 @@ layers_dir="$1"
 
 # INJECT INVOCATION SCAFFOLDING (main)
 cp -r $bp_dir/faas $build_dir/faas
-mkdir -p bin
-go build -o bin/faas ./faas
+mkdir -p $build_dir/bin
+go build -o $build_dir/bin/faas $build_dir/faas
 
 # PLACE COMPILED BINARY IN APP LAYER FOR LAUNCH
 app_layer="$layers_dir/app"
@@ -21,10 +21,10 @@ build = false
 cache = false
 EOF
 
-cp ./bin/faas "$app_layer/faas"
+cp $build_dir/bin/faas "$app_layer/faas"
 
 # REMOVE SOURCE CODE FROM FINAL CONTAINER
-rm -rf /workspace/*
+rm -rf $build_dir/*
 
 # LAUNCHER
 cat > "$layers_dir/launch.toml" << EOF
