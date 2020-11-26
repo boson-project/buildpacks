@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.5.0](https://www.github.com/boson-project/buildpacks/compare/v0.4.1...v0.5.0) (2020-11-26)
+
+
+### Features
+
+* add springboot buildpack/builder ([#46](https://www.github.com/boson-project/buildpacks/issues/46)) ([141f6c5](https://www.github.com/boson-project/buildpacks/commit/141f6c53a916b3bc41bc4e0fd639c18626ca3d85)), closes [#45](https://www.github.com/boson-project/buildpacks/issues/45)
+
+
+### Bug Fixes
+
+* add --nodocs to dnf install to reduce image size ([#50](https://www.github.com/boson-project/buildpacks/issues/50)) ([7ec6d04](https://www.github.com/boson-project/buildpacks/commit/7ec6d04e3a90ece91a368824e0d8ac7824c9aee6))
+* don't assume /workspace in go builder ([#53](https://www.github.com/boson-project/buildpacks/issues/53)) ([d642ab5](https://www.github.com/boson-project/buildpacks/commit/d642ab50bb363442969753272beb0dd408b771ae))
+
 ### [0.4.1](https://www.github.com/boson-project/buildpacks/compare/v0.4.0...v0.4.1) (2020-11-17)
 
 
