@@ -1,16 +1,16 @@
 # Buildpacks to include in builder
 [[buildpacks]]
-id = "com.redhat.faas.quarkus-native"
+id = "dev.boson.quarkus-native"
 image = "quay.io/boson/faas-quarkus-native-bp:{{VERSION}}"
 
 [[order]]
 [[order.group]]
-id = "com.redhat.faas.quarkus-native"
+id = "dev.boson.quarkus-native"
 
 # Stack that will be used by the builder
 [stack]
-    id = "com.redhat.faas.stacks.quarkus-native"
-    # This image is used at runtime
-    run-image = "quay.io/boson/faas-stack-run:quarkus-native-{{VERSION}}"
-    # This image is used at build-time
-    build-image = "quay.io/boson/faas-stack-build:quarkus-native-{{VERSION}}"
+id = "dev.boson.stacks.quarkus-native"
+# This image is used at runtime
+run-image = "quay.io/boson/faas-stack-run:quarkus-native-{{VERSION}}"
+# This image is used at build-time
+build-image = "quay.io/boson/faas-stack-build:quarkus-native-{{VERSION}}"

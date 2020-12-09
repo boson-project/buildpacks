@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-ID_PREFIX="com.redhat.faas.stacks"
+ID_PREFIX="dev.boson.stacks"
 
 REPOSITORY=quay.io/boson
 DEFAULT_PREFIX=faas-stack

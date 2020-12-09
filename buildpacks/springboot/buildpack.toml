@@ -1,9 +1,9 @@
 api = "0.2"
 
 [buildpack]
-id = "com.redhat.faas.springboot"
+id = "dev.boson.springboot"
 version = "0.0.1"
 name = "Spring Cloud Functions Buildpack"
 
 [[stacks]]
-id = "com.redhat.faas.stacks.springboot"
+id = "dev.boson.stacks.springboot"
