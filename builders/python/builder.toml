@@ -1,0 +1,16 @@
+# Buildpacks to include in builder
+[[buildpacks]]
+id = "dev.boson.python"
+image = "quay.io/boson/faas-python-bp:{{VERSION}}"
+
+[[order]]
+[[order.group]]
+id = "dev.boson.python"
+
+# Stack that will be used by the builder
+[stack]
+id = "dev.boson.stacks.python"
+# This image is used at runtime
+run-image = "quay.io/boson/faas-stack-run:python-{{VERSION}}"
+# This image is used at build-time
+build-image = "quay.io/boson/faas-stack-build:python-{{VERSION}}"

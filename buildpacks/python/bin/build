@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -e
+set -o pipefail
+
+echo "---> Python Function Buildpack"
+
+bp_dir=$(cd "$(dirname "$0")"/..; pwd)
+build_dir=$(pwd)
+layers_dir=$1
+
+echo $bp_dir
+echo $build_dir
+echo $layers_dir
+source "$bp_dir/lib/build.sh"
+
+# Install invoker and user function
+app_layer="$layers_dir/app"
+mkdir -p "$app_layer"
+cp -r $bp_dir/runtime $app_layer/.invoker
+
+cat > "$app_layer.toml" << EOF
+launch = true
+build = false
+cache = false
+EOF
+
+install_or_reuse_deps "$layers_dir/environments"
+
+cat <<TOML > "${layers_dir}/launch.toml"
+[[processes]]
+type = "web"
+command = "cd $app_layer/.invoker && python3 server.py"
+TOML
