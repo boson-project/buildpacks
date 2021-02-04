@@ -8,26 +8,35 @@ bp_dir=$(cd "$(dirname "$0")"/..; pwd)
 build_dir=$(pwd)
 layers_dir=$1
 
-echo $bp_dir
-echo $build_dir
-echo $layers_dir
-source "$bp_dir/lib/build.sh"
+source "${bp_dir}/lib/build.sh"
 
-# Install invoker and user function
-app_layer="$layers_dir/app"
-mkdir -p "$app_layer"
-cp -r $bp_dir/runtime $app_layer/.invoker
-
-cat > "$app_layer.toml" << EOF
+app_layer=${layers_dir}/app
+mkdir -p "${app_layer}"
+cat > "$app_layer.toml" << TOML
 launch = true
 build = false
 cache = false
-EOF
+TOML
 
-install_or_reuse_deps "$layers_dir/environments"
+# Install function
+echo "---> Installing function"
+ls -l ${build_dir}
+cp -r ${build_dir}/* ${app_layer}
+
+# Install invoker
+echo "---> Installing invoker"
+ls -l ${bp_dir}/runtime
+cp -r ${bp_dir}/runtime ${app_layer}/.invoker
+
+# Install or reuse dependencies
+echo "---> Installing or reusing dependencies"
+environments_layer="${layers_dir}/environments"
+install_or_reuse_deps ${environments_layer}
+
+# TODO: set up production using waitress
 
 cat <<TOML > "${layers_dir}/launch.toml"
 [[processes]]
 type = "web"
-command = "cd $app_layer/.invoker && python3 server.py"
+command = "export FLASK_APP=server.py && source $environments_layer/functions/bin/activate && cd $app_layer/.invoker && flask run --host=0.0.0.0 --port=8080"
 TOML

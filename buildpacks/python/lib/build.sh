@@ -3,18 +3,17 @@
 set -e
 
 install_or_reuse_deps() {
-  echo "Handling deps"
+  echo "Installing function invoker dependencies"
   local layer_dir=$1
   local env_dir="${layer_dir}/functions"
 
-  echo $layer_dir
   touch "${layer_dir}.toml"
+  mkdir -p ${layer_dir}
 
   echo "Using python version $(python3 --version)"
   
   if [[ ! -d ${env_dir} ]]; then
-    mkdir -p ${env_dir}
-    cd ${env_dir}
+    cd ${layer_dir}
     echo "Installing virtualenv"
     pip3 install --user virtualenv
     echo "Creating function runtime environment"
