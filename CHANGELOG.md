@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.5.1](https://www.github.com/boson-project/buildpacks/compare/v0.5.0...v0.5.1) (2021-02-04)
+
+
+### Bug Fixes
+
+* change buildpack, builder and stack ids ([#47](https://www.github.com/boson-project/buildpacks/issues/47)) ([5057386](https://www.github.com/boson-project/buildpacks/commit/50573860d262f7c1685d5283288722f2f5f4bc29))
+
 ## [0.5.0](https://www.github.com/boson-project/buildpacks/compare/v0.4.1...v0.5.0) (2020-11-26)
 
 
