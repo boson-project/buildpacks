@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.5.2](https://www.github.com/boson-project/buildpacks/compare/v0.5.1...v0.5.2) (2021-02-19)
+
+
+### Bug Fixes
+
+* publish missing springboot images ([#62](https://www.github.com/boson-project/buildpacks/issues/62)) ([8d0aaa8](https://www.github.com/boson-project/buildpacks/commit/8d0aaa8dd4d21722c7cbb28838341f98731cf2d4))
+
 ### [0.5.1](https://www.github.com/boson-project/buildpacks/compare/v0.5.0...v0.5.1) (2021-02-04)
 
 
