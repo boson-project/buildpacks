@@ -3,6 +3,7 @@ import os
 
 from flask import Flask, request
 from cloudevents.http import from_http
+from waitress import serve
 
 serverDir = os.path.dirname(__file__)
 funcDir = os.path.realpath(os.path.join(serverDir, ".."))
@@ -17,8 +18,11 @@ app = Flask(__name__)
 @app.route("/", methods=["POST"])
 def handler():
   # create a CloudEvent
-  event = from_http(request.headers, request.get_data())
-  return func.main(event)
+  try:
+    event = from_http(request.headers, request.get_data())
+    return func.main(event)
+  except Exception:
+    return func.main("")
 
 if __name__ == "__main__":
-  app.run(port=8080)
+  serve(app, host='0.0.0.0', port=8080)

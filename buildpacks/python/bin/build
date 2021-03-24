@@ -29,14 +29,12 @@ ls -l ${bp_dir}/runtime
 cp -r ${bp_dir}/runtime ${app_layer}/.invoker
 
 # Install or reuse dependencies
-echo "---> Installing or reusing dependencies"
+echo "---> Installing or reusing runtime dependencies"
 environments_layer="${layers_dir}/environments"
-install_or_reuse_deps ${environments_layer}
-
-# TODO: set up production using waitress
+install_or_reuse_deps ${environments_layer} ${app_layer}/requirements.txt
 
 cat <<TOML > "${layers_dir}/launch.toml"
 [[processes]]
 type = "web"
-command = "export FLASK_APP=server.py && source $environments_layer/functions/bin/activate && cd $app_layer/.invoker && flask run --host=0.0.0.0 --port=8080"
+command = "source $environments_layer/functions/bin/activate && cd $app_layer/.invoker && python3 server.py"
 TOML
