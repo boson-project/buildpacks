@@ -13,16 +13,31 @@ import func
 
 app = Flask(__name__)
 
-# create an endpoint at localhost:3000
-
 @app.route("/", methods=["POST"])
-def handler():
-  # create a CloudEvent
+def handle_post():
+  context = {
+    'request': request
+  }
   try:
-    event = from_http(request.headers, request.get_data())
-    return func.main(event)
+    context['cloud_event'] = from_http(request.headers, request.get_data())
   except Exception:
-    return func.main("")
+    app.logger.warning('No CloudEvent available')
+  return func.main(context)
+
+@app.route("/", methods=["GET"])
+def handle_get():
+  context = {
+    'request': request
+  }
+  return func.main(context)
+
+@app.route("/health/liveness")
+def liveness():
+  return "OK"
+
+@app.route("/health/readiness")
+def readiness():
+  return "OK"
 
 if __name__ == "__main__":
   serve(app, host='0.0.0.0', port=8080)
