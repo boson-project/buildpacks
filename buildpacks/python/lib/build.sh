@@ -21,12 +21,8 @@ install_or_reuse_deps() {
     python3 -m venv functions
     echo "Activating functions environment"
     source functions/bin/activate
-    echo "Installing flask"
-    pip3 install flask
-    echo "Installing waitress"
-    pip3 install waitress
-    echo "Installing cloudevents"
-    pip3 install cloudevents
+    echo "Installing parliament"
+    pip3 install parliament-functions
   fi
 
   if [ -f ${requirements} ] ; then

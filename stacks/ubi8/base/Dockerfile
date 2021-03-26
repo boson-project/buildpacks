@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/ubi:8.2
+FROM registry.access.redhat.com/ubi8/ubi:8.3
 
 ARG cnb_uid=1000
 ARG cnb_gid=1001
