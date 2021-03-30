@@ -31,5 +31,5 @@ install_or_reuse_deps ${environments_layer} ${app_layer}/requirements.txt
 cat <<TOML > "${layers_dir}/launch.toml"
 [[processes]]
 type = "web"
-command = "source $environments_layer/functions/bin/activate && cd $app_layer && parliament ."
+command = "source $environments_layer/functions/bin/activate && cd $app_layer && exec python3 -m parliament ."
 TOML
