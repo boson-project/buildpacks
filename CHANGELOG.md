@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.0](https://www.github.com/boson-project/buildpacks/compare/v0.5.2...v0.6.0) (2021-03-30)
+
+
+### Features
+
+* update CI branch to use main ([#67](https://www.github.com/boson-project/buildpacks/issues/67)) ([2187570](https://www.github.com/boson-project/buildpacks/commit/2187570488ad7c6d74246f7dac177e8e15421f80))
+
+
+### Bug Fixes
+
+* use exec in entrypoint ([#68](https://www.github.com/boson-project/buildpacks/issues/68)) ([cae702f](https://www.github.com/boson-project/buildpacks/commit/cae702f583aea7d5fe79dcdec8d184a4104a79e8))
+
 ### [0.5.2](https://www.github.com/boson-project/buildpacks/compare/v0.5.1...v0.5.2) (2021-02-19)
 
 
