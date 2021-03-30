@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -e
+set -o pipefail
+
+echo "---> Python Function Buildpack"
+
+bp_dir=$(cd "$(dirname "$0")"/..; pwd)
+build_dir=$(pwd)
+layers_dir=$1
+
+source "${bp_dir}/lib/build.sh"
+
+app_layer=${layers_dir}/app
+mkdir -p "${app_layer}"
+cat > "$app_layer.toml" << TOML
+launch = true
+build = false
+cache = false
+TOML
+
+# Install function
+echo "---> Installing function"
+ls -l ${build_dir}
+cp -r ${build_dir}/* ${app_layer}
+
+# Install or reuse dependencies
+echo "---> Installing or reusing runtime dependencies"
+environments_layer="${layers_dir}/environments"
+install_or_reuse_deps ${environments_layer} ${app_layer}/requirements.txt
+
+cat <<TOML > "${layers_dir}/launch.toml"
+[[processes]]
+type = "web"
+command = "source $environments_layer/functions/bin/activate && cd $app_layer && parliament ."
+TOML

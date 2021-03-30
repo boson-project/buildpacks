@@ -1,0 +1,9 @@
+api = "0.2"
+
+[buildpack]
+id = "dev.boson.python"
+version = "0.0.1"
+name = "Python Function Buildpack"
+
+[[stacks]]
+id = "dev.boson.stacks.python"
