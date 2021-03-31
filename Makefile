@@ -64,7 +64,7 @@ publish:
 	docker push $(BASE_REPO):ubi8-minimal-$(VERSION_TAG)
 	docker push $(BASE_REPO):ubi8-$(VERSION_TAG)
 
-	for i in go quarkus-native quarkus-jvm nodejs springboot ubi8-minimal ubi8; do \
+	for i in go quarkus-native quarkus-jvm nodejs python springboot ubi8-minimal ubi8; do \
 	    docker push $(RUN_REPO):$$i-$(VERSION_TAG); \
 	    docker push $(BUILD_REPO):$$i-$(VERSION_TAG); \
 	done
