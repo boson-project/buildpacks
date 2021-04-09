@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.6.1](https://www.github.com/boson-project/buildpacks/compare/v0.6.0...v0.6.1) (2021-04-09)
+
+
+### Bug Fixes
+
+* add python to make publish ([#71](https://www.github.com/boson-project/buildpacks/issues/71)) ([7c74853](https://www.github.com/boson-project/buildpacks/commit/7c74853eb056d02044a30abf7668d526a15763e8))
+
 ## [0.6.0](https://www.github.com/boson-project/buildpacks/compare/v0.5.2...v0.6.0) (2021-03-30)
 
 
