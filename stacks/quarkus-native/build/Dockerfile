@@ -14,9 +14,9 @@ RUN dnf module install -y maven:3.6 \
     && dnf update -y \
     && dnf clean all -y \
     && chown cnb:cnb $HOME \
-    && wget -q -O - "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-20.1.0/graalvm-ce-java11-linux-amd64-20.1.0.tar.gz" | \
+    && wget -q -O - "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-21.0.0.2/graalvm-ce-java11-linux-amd64-21.0.0.2.tar.gz" | \
         tar -xzf - -C /opt \
-    && mv /opt/graalvm-ce-java11-20.1.0 /opt/graalvm \
+    && mv /opt/graalvm-ce-java11-21.0.0.2 /opt/graalvm \
     && /opt/graalvm/bin/gu --auto-yes install native-image
 
 ENV JAVA_HOME /opt/graalvm
