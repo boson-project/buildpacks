@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.7.0](https://www.github.com/boson-project/buildpacks/compare/v0.6.0...v0.7.0) (2021-04-14)
+
+
+### Features
+
+* support configurable log levels for node.js functions ([#74](https://www.github.com/boson-project/buildpacks/issues/74)) ([775f1aa](https://www.github.com/boson-project/buildpacks/commit/775f1aab780c8f8e39a75b797f3edd15aa5a622d))
+
+
+### Bug Fixes
+
+* add python to make publish ([#71](https://www.github.com/boson-project/buildpacks/issues/71)) ([7c74853](https://www.github.com/boson-project/buildpacks/commit/7c74853eb056d02044a30abf7668d526a15763e8))
+* native build ([#78](https://www.github.com/boson-project/buildpacks/issues/78)) ([12c6509](https://www.github.com/boson-project/buildpacks/commit/12c6509a60e2551ac551bba1c78ab5174d152e42))
+
 ## [0.6.0](https://www.github.com/boson-project/buildpacks/compare/v0.5.2...v0.6.0) (2021-03-30)
 
 
