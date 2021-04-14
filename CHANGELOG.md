@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.7.1](https://www.github.com/boson-project/buildpacks/compare/v0.7.0...v0.7.1) (2021-04-14)
+
+
+### Bug Fixes
+
+* bump nodejs faas runtime dependency for log levels ([#79](https://www.github.com/boson-project/buildpacks/issues/79)) ([4f06950](https://www.github.com/boson-project/buildpacks/commit/4f06950391611c7c9749d2c9db816a2d2bb6baf1))
+
 ## [0.7.0](https://www.github.com/boson-project/buildpacks/compare/v0.6.0...v0.7.0) (2021-04-14)
 
 
