@@ -10,7 +10,7 @@
     "test": "FUNCTION_PATH=./test/fixtures tape test/test.js | tap-spec"
   },
   "dependencies": {
-    "faas-js-runtime": "0.6.0",
+    "faas-js-runtime": "git+http://github.com/boson-project/faas-js-runtime.git#d5bfd68f4ee731f6a7170ff8978954ff8fd0c100",
     "death": "^1.1.0"
   },
   "devDependencies": {

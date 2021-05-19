@@ -23,4 +23,3 @@ ENV GRAALVM_HOME /opt/mandrel
 ENV PATH $GRAALVM_HOME/bin:$PATH
 
 USER cnb
-

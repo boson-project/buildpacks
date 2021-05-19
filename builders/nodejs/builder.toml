@@ -3,9 +3,15 @@
 id = "dev.boson.nodejs"
 image = "quay.io/boson/faas-nodejs-bp:{{VERSION}}"
 
+[[buildpacks]]
+id = "dev.boson.typescript"
+image = "quay.io/boson/faas-typescript-bp:{{VERSION}}"
+
 [[order]]
-[[order.group]]
-id = "dev.boson.nodejs"
+  [[order.group]]
+  id = "dev.boson.nodejs"
+  [[order.group]]
+  id = "dev.boson.typescript"
 
 # Stack that will be used by the builder
 [stack]

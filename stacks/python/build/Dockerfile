@@ -9,7 +9,7 @@ LABEL io.buildpacks.stack.id=${stack_id}
 USER root
 ENV HOME /projects/python-function
 COPY ./python.module /etc/dnf/modules.d
-RUN dnf install --nodocs -y python3 tar
+RUN dnf install --nodocs -y python38 tar
 
 WORKDIR $HOME
 RUN chown cnb:cnb $HOME
