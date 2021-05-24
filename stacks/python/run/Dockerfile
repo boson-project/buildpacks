@@ -7,7 +7,7 @@ LABEL io.buildpacks.stack.id=${stack_id}
 
 USER root
 COPY ./python.module /etc/dnf/modules.d
-RUN microdnf install --nodocs -y python3 tar
+RUN microdnf install --nodocs -y python38 tar
 
 ENV HOME /projects/python-function
 WORKDIR $HOME

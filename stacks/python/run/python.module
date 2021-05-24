@@ -1,5 +1,5 @@
 [python]
 name=python
-stream=3.8
+stream=38
 profiles=
 state=enabled

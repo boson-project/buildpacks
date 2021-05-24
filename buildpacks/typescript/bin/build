@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -e
+set -o pipefail
+
+echo "---> TypeScript Functions Buildpack"
+
+bp_dir=$(cd "$(dirname "$0")"/..; pwd)
+build_dir=$(pwd)
+layers_dir=$1
+platform_dir=$2
+
+# Make the assumption that the Node.js buildpack has already
+# installed all dependencies. All we need to do is build
+echo "---> Building project"
+npm run build
+
+cat <<TOML > "${layers_dir}/launch.toml"
+[[processes]]
+type = "web"
+command = "cd .invoker && FUNCTION_PATH=../build npm start"
+TOML

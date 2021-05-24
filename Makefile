@@ -20,6 +20,7 @@ QUARKUS_JVM_BUILDPACK_REPO := quay.io/boson/faas-quarkus-jvm-bp
 QUARKUS_NATIVE_BUILDPACK_REPO := quay.io/boson/faas-quarkus-native-bp
 SPRINGBOOT_BUILDPACK_REPO := quay.io/boson/faas-springboot-bp
 PYTHON_BUILDPACK_REPO := quay.io/boson/faas-python-bp
+TYPESCRIPT_BUILDPACK_REPO := quay.io/boson/faas-typescript-bp
 
 
 .PHONY: stacks buildpacks builders
@@ -43,6 +44,7 @@ buildpacks:
 	$(PACK_CMD) package-buildpack $(QUARKUS_NATIVE_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/quarkus-native/package.toml
 	$(PACK_CMD) package-buildpack $(SPRINGBOOT_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/springboot/package.toml
 	$(PACK_CMD) package-buildpack $(PYTHON_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/python/package.toml
+	$(PACK_CMD) package-buildpack $(TYPESCRIPT_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/typescript/package.toml
 
 builders:
 	TMP_BLDRS=$(shell mktemp -d) && \
@@ -69,7 +71,7 @@ publish:
 	    docker push $(BUILD_REPO):$$i-$(VERSION_TAG); \
 	done
 
-	for img in $(QUARKUS_NATIVE_BUILDPACK_REPO) $(QUARKUS_JVM_BUILDPACK_REPO) $(QUARKUS_NATIVE_BUILDER_REPO) $(QUARKUS_JVM_BUILDER_REPO) $(NODEJS_BUILDPACK_REPO) $(GO_BUILDPACK_REPO) $(NODEJS_BUILDER_REPO) $(GO_BUILDER_REPO) $(SPRINGBOOT_BUILDPACK_REPO) $(SPRINGBOOT_BUILDER_REPO) $(PYTHON_BUILDPACK_REPO) $(PYTHON_BUILDER_REPO); do \
+	for img in $(QUARKUS_NATIVE_BUILDPACK_REPO) $(QUARKUS_JVM_BUILDPACK_REPO) $(QUARKUS_NATIVE_BUILDER_REPO) $(QUARKUS_JVM_BUILDER_REPO) $(NODEJS_BUILDPACK_REPO) $(GO_BUILDPACK_REPO) $(NODEJS_BUILDER_REPO) $(GO_BUILDER_REPO) $(SPRINGBOOT_BUILDPACK_REPO) $(SPRINGBOOT_BUILDER_REPO) $(PYTHON_BUILDPACK_REPO) $(PYTHON_BUILDER_REPO) $(TYPESCRIPT_BUILDER_REPO); do \
 		docker push $$img:$(VERSION_TAG); \
 		if [ "$(VERSION_TAG)" != "tip" ]; then \
 		    docker tag $$img:$(VERSION_TAG) $$img:latest; \
