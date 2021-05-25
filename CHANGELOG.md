@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.8.0](https://www.github.com/boson-project/buildpacks/compare/v0.7.1...v0.8.0) (2021-05-25)
+
+
+### Features
+
+* add support for typescript projects in nodejs builder ([#81](https://www.github.com/boson-project/buildpacks/issues/81)) ([ef589b1](https://www.github.com/boson-project/buildpacks/commit/ef589b1d8deec4728a45c57bdfa577f3bc4507fa))
+
+
+### Bug Fixes
+
+* use FUNC_* as environment prefix in Node apps ([#84](https://www.github.com/boson-project/buildpacks/issues/84)) ([4c69af4](https://www.github.com/boson-project/buildpacks/commit/4c69af4edef7abbf9e048fd03190838f81a599be))
+
 ### [0.7.1](https://www.github.com/boson-project/buildpacks/compare/v0.7.0...v0.7.1) (2021-04-14)
 
 
