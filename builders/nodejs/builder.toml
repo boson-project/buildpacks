@@ -12,6 +12,7 @@ image = "quay.io/boson/faas-typescript-bp:{{VERSION}}"
   id = "dev.boson.nodejs"
   [[order.group]]
   id = "dev.boson.typescript"
+  optional = true
 
 # Stack that will be used by the builder
 [stack]
