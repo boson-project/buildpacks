@@ -5,8 +5,8 @@ const ON_DEATH  = require('death')({ uncaughtException: true });
 const code      = require(extractFullPath(process.env.FUNCTION_PATH || '../'));
 
 const options = {
-  listenPort: process.env.PORT || 8080,
-  logLevel: process.env.LOG_LEVEL || 'warn'
+  listenPort: process.env.FUNC_PORT || 8080,
+  logLevel: process.env.FUNC_LOG_LEVEL || 'warn'
 }
 
 let func;
