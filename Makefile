@@ -9,9 +9,8 @@ RUN_REPO   := quay.io/boson/faas-stack-run
 
 NODEJS_BUILDER_REPO  := quay.io/boson/faas-nodejs-builder
 GO_BUILDER_REPO      := quay.io/boson/faas-go-builder
-QUARKUS_JVM_BUILDER_REPO := quay.io/boson/faas-quarkus-jvm-builder
+JVM_BUILDER_REPO := quay.io/boson/faas-jvm-builder
 QUARKUS_NATIVE_BUILDER_REPO := quay.io/boson/faas-quarkus-native-builder
-SPRINGBOOT_BUILDER_REPO := quay.io/boson/faas-springboot-builder
 PYTHON_BUILDER_REPO := quay.io/boson/faas-python-builder
 
 NODEJS_BUILDPACK_REPO  := quay.io/boson/faas-nodejs-bp
@@ -32,9 +31,8 @@ stacks:
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/ubi8-minimal
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/nodejs
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/go
-	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/quarkus-jvm
+	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/jvm
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/quarkus-native
-	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/springboot
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/python
 
 buildpacks:
@@ -51,14 +49,12 @@ builders:
 	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/nodejs/builder.toml > $$TMP_BLDRS/node.toml && \
 	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/quarkus-native/builder.toml > $$TMP_BLDRS/quarkus-native.toml && \
 	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/go/builder.toml > $$TMP_BLDRS/go.toml && \
-	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/quarkus-jvm/builder.toml > $$TMP_BLDRS/quarkus-jvm.toml && \
-	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/springboot/builder.toml > $$TMP_BLDRS/springboot.toml && \
+	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/jvm/builder.toml > $$TMP_BLDRS/jvm.toml && \
 	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/python/builder.toml > $$TMP_BLDRS/python.toml && \
 	$(PACK_CMD) create-builder --pull-policy=never $(NODEJS_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/node.toml && \
 	$(PACK_CMD) create-builder --pull-policy=never $(GO_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/go.toml && \
-	$(PACK_CMD) create-builder --pull-policy=never $(QUARKUS_JVM_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/quarkus-jvm.toml && \
+	$(PACK_CMD) create-builder --pull-policy=never $(JVM_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/jvm.toml && \
 	$(PACK_CMD) create-builder --pull-policy=never $(QUARKUS_NATIVE_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/quarkus-native.toml && \
-	$(PACK_CMD) create-builder --pull-policy=never $(SPRINGBOOT_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/springboot.toml -v && \
 	$(PACK_CMD) create-builder --pull-policy=never $(PYTHON_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/python.toml -v && \
 	rm -fr $$TMP_BLDRS
 
@@ -66,12 +62,12 @@ publish:
 	docker push $(BASE_REPO):ubi8-minimal-$(VERSION_TAG)
 	docker push $(BASE_REPO):ubi8-$(VERSION_TAG)
 
-	for i in go quarkus-native quarkus-jvm nodejs python springboot ubi8-minimal ubi8; do \
+	for i in go quarkus-native jvm nodejs python ubi8-minimal ubi8; do \
 	    docker push $(RUN_REPO):$$i-$(VERSION_TAG); \
 	    docker push $(BUILD_REPO):$$i-$(VERSION_TAG); \
 	done
 
-	for img in $(QUARKUS_NATIVE_BUILDPACK_REPO) $(QUARKUS_JVM_BUILDPACK_REPO) $(QUARKUS_NATIVE_BUILDER_REPO) $(QUARKUS_JVM_BUILDER_REPO) $(NODEJS_BUILDPACK_REPO) $(GO_BUILDPACK_REPO) $(NODEJS_BUILDER_REPO) $(GO_BUILDER_REPO) $(SPRINGBOOT_BUILDPACK_REPO) $(SPRINGBOOT_BUILDER_REPO) $(PYTHON_BUILDPACK_REPO) $(PYTHON_BUILDER_REPO) $(TYPESCRIPT_BUILDER_REPO); do \
+	for img in $(QUARKUS_NATIVE_BUILDPACK_REPO) $(QUARKUS_JVM_BUILDPACK_REPO) $(QUARKUS_NATIVE_BUILDER_REPO) $(JVM_BUILDER_REPO) $(NODEJS_BUILDPACK_REPO) $(GO_BUILDPACK_REPO) $(NODEJS_BUILDER_REPO) $(GO_BUILDER_REPO) $(SPRINGBOOT_BUILDPACK_REPO) $(PYTHON_BUILDPACK_REPO) $(PYTHON_BUILDER_REPO) $(TYPESCRIPT_BUILDER_REPO); do \
 		docker push $$img:$(VERSION_TAG); \
 		if [ "$(VERSION_TAG)" != "tip" ]; then \
 		    docker tag $$img:$(VERSION_TAG) $$img:latest; \

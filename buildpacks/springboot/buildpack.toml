@@ -6,4 +6,4 @@ version = "0.0.1"
 name = "Spring Cloud Functions Buildpack"
 
 [[stacks]]
-id = "dev.boson.stacks.springboot"
+id = "dev.boson.stacks.jvm"

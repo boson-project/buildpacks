@@ -3,14 +3,22 @@
 id = "dev.boson.quarkus-jvm"
 image = "quay.io/boson/faas-quarkus-jvm-bp:{{VERSION}}"
 
+[[buildpacks]]
+id = "dev.boson.springboot"
+image = "quay.io/boson/faas-springboot-bp:{{VERSION}}"
+
 [[order]]
 [[order.group]]
 id = "dev.boson.quarkus-jvm"
 
+[[order]]
+[[order.group]]
+id = "dev.boson.springboot"
+
 # Stack that will be used by the builder
 [stack]
-id = "dev.boson.stacks.quarkus-jvm"
+id = "dev.boson.stacks.jvm"
 # This image is used at runtime
-run-image = "quay.io/boson/faas-stack-run:quarkus-jvm-{{VERSION}}"
+run-image = "quay.io/boson/faas-stack-run:jvm-{{VERSION}}"
 # This image is used at build-time
-build-image = "quay.io/boson/faas-stack-build:quarkus-jvm-{{VERSION}}"
+build-image = "quay.io/boson/faas-stack-build:jvm-{{VERSION}}"

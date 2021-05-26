@@ -6,4 +6,4 @@ version = "0.0.1"
 name = "Quarkus Function Buildpack"
 
 [[stacks]]
-id = "dev.boson.stacks.quarkus-jvm"
+id = "dev.boson.stacks.jvm"
