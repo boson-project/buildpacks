@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.8.1](https://www.github.com/boson-project/buildpacks/compare/v0.8.0...v0.8.1) (2021-05-26)
+
+
+### Bug Fixes
+
+* make typescript optional for Node builds ([#85](https://www.github.com/boson-project/buildpacks/issues/85)) ([9c49d2b](https://www.github.com/boson-project/buildpacks/commit/9c49d2bf423a99ee4337eac7d8484b56e05b790e))
+
 ## [0.8.0](https://www.github.com/boson-project/buildpacks/compare/v0.7.1...v0.8.0) (2021-05-25)
 
 
