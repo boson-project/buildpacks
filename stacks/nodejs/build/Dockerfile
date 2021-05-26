@@ -10,7 +10,3 @@ USER root
 COPY ./nodejs.module /etc/dnf/modules.d
 RUN dnf install --nodocs -y nodejs tar git
 
-ENV HOME /projects/node-function
-WORKDIR $HOME
-RUN chown cnb:cnb $HOME
-USER cnb
