@@ -6,4 +6,4 @@ version = "0.0.1"
 name = "Node.js Function Buildpack"
 
 [[stacks]]
-id = "dev.boson.stacks.nodejs"
+id = "com.redhat.stacks.ubi8-nodejs-14"
