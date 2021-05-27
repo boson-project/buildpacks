@@ -7,3 +7,6 @@ name = "Typescript Function Buildpack"
 
 [[stacks]]
 id = "com.redhat.stacks.ubi8-nodejs-14"
+
+[[stacks]]
+id = "dev.boson.stacks.nodejs"
