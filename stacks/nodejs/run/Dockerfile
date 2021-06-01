@@ -9,11 +9,6 @@ USER root
 COPY ./nodejs.module /etc/dnf/modules.d
 RUN microdnf install --nodocs -y nodejs tar
 
-ENV HOME /projects/node-function
-WORKDIR $HOME
-RUN chown cnb:cnb $HOME
-USER cnb
-
 ENV NODE_PATH $HOME/node_modules
 ENV NODE_ENV production
 ENV PORT 8080
