@@ -29,7 +29,6 @@ all: stacks buildpacks builders
 stacks:
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/ubi8
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/ubi8-minimal
-	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/nodejs
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/go
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/jvm
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/quarkus-native
@@ -62,7 +61,7 @@ publish:
 	docker push $(BASE_REPO):ubi8-minimal-$(VERSION_TAG)
 	docker push $(BASE_REPO):ubi8-$(VERSION_TAG)
 
-	for i in go quarkus-native jvm nodejs python ubi8-minimal ubi8; do \
+	for i in go quarkus-native jvm python ubi8-minimal ubi8; do \
 	    docker push $(RUN_REPO):$$i-$(VERSION_TAG); \
 	    docker push $(BUILD_REPO):$$i-$(VERSION_TAG); \
 	done

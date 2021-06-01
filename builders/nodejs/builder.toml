@@ -16,8 +16,8 @@ image = "quay.io/boson/faas-typescript-bp:{{VERSION}}"
 
 # Stack that will be used by the builder
 [stack]
-id = "dev.boson.stacks.nodejs"
+id = "com.redhat.stacks.ubi8-nodejs-14"
 # This image is used at runtime
-run-image = "quay.io/boson/faas-stack-run:nodejs-{{VERSION}}"
+run-image =   "registry.access.redhat.com/ubi8/nodejs-14-minimal"
 # This image is used at build-time
-build-image = "quay.io/boson/faas-stack-build:nodejs-{{VERSION}}"
+build-image = "registry.access.redhat.com/ubi8/nodejs-14"
