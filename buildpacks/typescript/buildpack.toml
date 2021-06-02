@@ -1,9 +1,0 @@
-api = "0.2"
-
-[buildpack]
-id = "dev.boson.typescript"
-version = "0.0.1"
-name = "Typescript Function Buildpack"
-
-[[stacks]]
-id = "dev.boson.stacks.nodejs"

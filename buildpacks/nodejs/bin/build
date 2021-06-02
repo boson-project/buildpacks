@@ -18,8 +18,18 @@ export PATH=$layers_dir/tools/bin:$PATH
 install_or_reuse_invoker "$bp_dir" "$build_dir" "$layers_dir/.invoker"
 install_or_reuse_node_modules "$build_dir" "$layers_dir/node_modules"
 
+# TypeScript functions will have a build script
+log_info "Running build if present"
+npm run build --if-present
+
+if [ -f build/index.js ] ; then
+  fn_path="../build"
+else
+  fn_path="../"
+fi
+
 cat <<TOML > "${layers_dir}/launch.toml"
 [[processes]]
 type = "web"
-command = "cd .invoker && npm start"
+command = "cd .invoker && FUNCTION_PATH=${fn_path} npm start"
 TOML
