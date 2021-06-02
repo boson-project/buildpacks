@@ -1,7 +1,7 @@
 # Buildpacks to include in builder
 [[buildpacks]]
 id = "dev.boson.quarkus-native"
-image = "quay.io/boson/faas-quarkus-native-bp:{{VERSION}}"
+uri = "docker://quay.io/boson/faas-quarkus-native-bp:{{VERSION}}"
 
 [[order]]
 [[order.group]]

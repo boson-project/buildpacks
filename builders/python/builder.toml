@@ -1,7 +1,7 @@
 # Buildpacks to include in builder
 [[buildpacks]]
 id = "dev.boson.python"
-image = "quay.io/boson/faas-python-bp:{{VERSION}}"
+uri = "docker://quay.io/boson/faas-python-bp:{{VERSION}}"
 
 [[order]]
 [[order.group]]

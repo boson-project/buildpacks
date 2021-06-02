@@ -1,11 +1,11 @@
 # Buildpacks to include in builder
 [[buildpacks]]
 id = "dev.boson.nodejs"
-image = "quay.io/boson/faas-nodejs-bp:{{VERSION}}"
+uri = "docker://quay.io/boson/faas-nodejs-bp:{{VERSION}}"
 
 [[buildpacks]]
 id = "dev.boson.typescript"
-image = "quay.io/boson/faas-typescript-bp:{{VERSION}}"
+uri = "docker://quay.io/boson/faas-typescript-bp:{{VERSION}}"
 
 [[order]]
   [[order.group]]

@@ -36,13 +36,13 @@ stacks:
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/python
 
 buildpacks:
-	$(PACK_CMD) package-buildpack $(NODEJS_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/nodejs/package.toml
-	$(PACK_CMD) package-buildpack $(GO_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/go/package.toml
-	$(PACK_CMD) package-buildpack $(QUARKUS_JVM_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/quarkus-jvm/package.toml
-	$(PACK_CMD) package-buildpack $(QUARKUS_NATIVE_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/quarkus-native/package.toml
-	$(PACK_CMD) package-buildpack $(SPRINGBOOT_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/springboot/package.toml
-	$(PACK_CMD) package-buildpack $(PYTHON_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/python/package.toml
-	$(PACK_CMD) package-buildpack $(TYPESCRIPT_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/typescript/package.toml
+	$(PACK_CMD) buildpack package $(NODEJS_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/nodejs/package.toml
+	$(PACK_CMD) buildpack package $(GO_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/go/package.toml
+	$(PACK_CMD) buildpack package $(QUARKUS_JVM_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/quarkus-jvm/package.toml
+	$(PACK_CMD) buildpack package $(QUARKUS_NATIVE_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/quarkus-native/package.toml
+	$(PACK_CMD) buildpack package $(SPRINGBOOT_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/springboot/package.toml
+	$(PACK_CMD) buildpack package $(PYTHON_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/python/package.toml
+	$(PACK_CMD) buildpack package $(TYPESCRIPT_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/typescript/package.toml
 
 builders:
 	TMP_BLDRS=$(shell mktemp -d) && \
@@ -51,11 +51,11 @@ builders:
 	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/go/builder.toml > $$TMP_BLDRS/go.toml && \
 	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/jvm/builder.toml > $$TMP_BLDRS/jvm.toml && \
 	sed "s/{{VERSION}}/$(VERSION_TAG)/g" ./builders/python/builder.toml > $$TMP_BLDRS/python.toml && \
-	$(PACK_CMD) create-builder --pull-policy=never $(NODEJS_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/node.toml && \
-	$(PACK_CMD) create-builder --pull-policy=never $(GO_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/go.toml && \
-	$(PACK_CMD) create-builder --pull-policy=never $(JVM_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/jvm.toml && \
-	$(PACK_CMD) create-builder --pull-policy=never $(QUARKUS_NATIVE_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/quarkus-native.toml && \
-	$(PACK_CMD) create-builder --pull-policy=never $(PYTHON_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/python.toml -v && \
+	$(PACK_CMD) builder create --pull-policy=never $(NODEJS_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/node.toml && \
+	$(PACK_CMD) builder create --pull-policy=never $(GO_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/go.toml && \
+	$(PACK_CMD) builder create --pull-policy=never $(JVM_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/jvm.toml && \
+	$(PACK_CMD) builder create --pull-policy=never $(QUARKUS_NATIVE_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/quarkus-native.toml && \
+	$(PACK_CMD) builder create --pull-policy=never $(PYTHON_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/python.toml -v && \
 	rm -fr $$TMP_BLDRS
 
 publish:
