@@ -3,16 +3,9 @@
 id = "dev.boson.nodejs"
 uri = "docker://quay.io/boson/faas-nodejs-bp:{{VERSION}}"
 
-[[buildpacks]]
-id = "dev.boson.typescript"
-uri = "docker://quay.io/boson/faas-typescript-bp:{{VERSION}}"
-
 [[order]]
   [[order.group]]
   id = "dev.boson.nodejs"
-  [[order.group]]
-  id = "dev.boson.typescript"
-  optional = true
 
 # Stack that will be used by the builder
 [stack]
