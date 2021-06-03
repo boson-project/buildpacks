@@ -1,11 +1,11 @@
 # Buildpacks to include in builder
 [[buildpacks]]
 id = "dev.boson.quarkus-jvm"
-image = "quay.io/boson/faas-quarkus-jvm-bp:{{VERSION}}"
+uri = "docker://quay.io/boson/faas-quarkus-jvm-bp:{{VERSION}}"
 
 [[buildpacks]]
 id = "dev.boson.springboot"
-image = "quay.io/boson/faas-springboot-bp:{{VERSION}}"
+uri = "docker://quay.io/boson/faas-springboot-bp:{{VERSION}}"
 
 [[order]]
 [[order.group]]

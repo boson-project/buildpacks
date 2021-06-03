@@ -1,6 +1,6 @@
 [[buildpacks]]
 id = "dev.boson.go"
-image = "quay.io/boson/faas-go-bp:{{VERSION}}"
+uri = "docker://quay.io/boson/faas-go-bp:{{VERSION}}"
 
 [[order]]
 [[order.group]]
