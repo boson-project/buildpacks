@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "---> Rust Buildpack"
+
+build_dir="$(pwd)"
+bp_dir=$(cd "$(dirname "$0")"/..; pwd)
+layers_dir="$1"
+
+# TODO: fix permission error!
+cargo build --release
+
+app_layer="$layers_dir/app"
+mkdir -p "$app_layer"
+cat > "$app_layer.toml" << EOF
+launch = true
+build = false
+cache = false
+EOF
+
+cp target/release/function "$app_layer/function"
+
+cat > "$layers_dir/launch.toml" << EOF
+[[processes]]
+type = "web"
+command = "$app_layer/function"
+EOF

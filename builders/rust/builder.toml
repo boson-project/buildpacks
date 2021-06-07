@@ -1,0 +1,12 @@
+[[buildpacks]]
+id = "dev.boson.rust"
+uri = "docker://quay.io/boson/faas-rust-bp:{{VERSION}}"
+
+[[order]]
+[[order.group]]
+id = "dev.boson.rust"
+
+[stack]
+id = "dev.boson.stacks.rust"
+build-image = "quay.io/boson/faas-stack-build:rust-{{VERSION}}"
+run-image = "quay.io/boson/faas-stack-run:rust-{{VERSION}}"
