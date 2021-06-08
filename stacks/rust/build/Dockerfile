@@ -6,6 +6,8 @@ ENV CNB_STACK_ID=${stack_id}
 LABEL io.buildpacks.stack.id=${stack_id}
 
 USER root
-RUN dnf install -y rust cargo
+RUN dnf install -y rust cargo \
+    && dnf update -y \
+    && dnf clean all -y
 
 USER cnb

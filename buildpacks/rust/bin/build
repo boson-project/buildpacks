@@ -3,12 +3,20 @@ set -euo pipefail
 
 echo "---> Rust Buildpack"
 
-build_dir="$(pwd)"
-bp_dir=$(cd "$(dirname "$0")"/..; pwd)
 layers_dir="$1"
 
-# TODO: fix permission error!
-cargo build --release
+deps_dir="${layers_dir}/deps"
+
+mkdir -p "${deps_dir}"
+cat <<TOML > "${deps_dir}.toml"
+launch = false
+build = true
+cache = true
+TOML
+
+target_dir="${deps_dir}/target"
+
+CARGO_HOME="${deps_dir}" cargo build --release --target-dir="${target_dir}"
 
 app_layer="$layers_dir/app"
 mkdir -p "$app_layer"
@@ -18,7 +26,7 @@ build = false
 cache = false
 EOF
 
-cp target/release/function "$app_layer/function"
+cp "${target_dir}/release/function" "${app_layer}/function"
 
 cat > "$layers_dir/launch.toml" << EOF
 [[processes]]
