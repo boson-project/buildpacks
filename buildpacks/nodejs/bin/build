@@ -15,17 +15,25 @@ rm -rf "$build_dir/node_modules"
 install_or_reuse_tools "$layers_dir/tools"
 export PATH=$layers_dir/tools/bin:$PATH
 
-install_or_reuse_invoker "$bp_dir" "$build_dir" "$layers_dir/.invoker"
+install_invoker "$bp_dir" "$build_dir/.invoker" "$layers_dir/.invoker"
 install_or_reuse_node_modules "$build_dir" "$layers_dir/node_modules"
 
 # TypeScript functions will have a build script
 log_info "Running build if present"
 npm run build --if-present
 
+# Default paths for typescript and javascript
 if [ -f build/index.js ] ; then
   fn_path="../build"
 else
   fn_path="../"
+fi
+
+if [ -f package.json ] ; then
+  main=$(cat package.json | jq .main | tr -d '"')
+  if [ $main != "null" ] ; then
+    fn_path=$main
+  fi
 fi
 
 cat <<TOML > "${layers_dir}/launch.toml"
