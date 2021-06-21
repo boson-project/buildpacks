@@ -1,0 +1,9 @@
+api = "0.2"
+
+[buildpack]
+id = "dev.boson.rust"
+version = "0.0.1"
+name = "Rust Function Buildpack"
+
+[[stacks]]
+id = "dev.boson.stacks.rust"

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "---> Rust Buildpack"
+
+layers_dir="$1"
+
+deps_dir="${layers_dir}/deps"
+
+mkdir -p "${deps_dir}"
+cat <<TOML > "${deps_dir}.toml"
+launch = false
+build = true
+cache = true
+TOML
+
+target_dir="${deps_dir}/target"
+
+CARGO_HOME="${deps_dir}" cargo build --release --target-dir="${target_dir}"
+
+app_layer="$layers_dir/app"
+mkdir -p "$app_layer"
+cat > "$app_layer.toml" << EOF
+launch = true
+build = false
+cache = false
+EOF
+
+cp "${target_dir}/release/function" "${app_layer}/function"
+
+cat > "$layers_dir/launch.toml" << EOF
+[[processes]]
+type = "web"
+command = "$app_layer/function"
+EOF
