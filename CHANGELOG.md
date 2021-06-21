@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.8.2](https://www.github.com/boson-project/buildpacks/compare/v0.8.1...v0.8.2) (2021-06-21)
+
+
+### Bug Fixes
+
+* improve caching for invoker and main path discovery ([#98](https://www.github.com/boson-project/buildpacks/issues/98)) ([43b2a77](https://www.github.com/boson-project/buildpacks/commit/43b2a77c8631cd8d3c87fbf1881ae5642cffb3b5))
+
 ### [0.8.1](https://www.github.com/boson-project/buildpacks/compare/v0.8.0...v0.8.1) (2021-05-26)
 
 
