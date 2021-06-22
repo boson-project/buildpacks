@@ -32,9 +32,10 @@ fi
 if [ -f package.json ] ; then
   main=$(cat package.json | jq .main | tr -d '"')
   if [ $main != "null" ] ; then
-    fn_path=$main
+    fn_path="../${main}"
   fi
 fi
+log_info "Function path ${fn_path}"
 
 cat <<TOML > "${layers_dir}/launch.toml"
 [[processes]]
