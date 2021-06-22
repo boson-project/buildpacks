@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.8.3](https://www.github.com/boson-project/buildpacks/compare/v0.8.2...v0.8.3) (2021-06-22)
+
+
+### Bug Fixes
+
+* path error for entrypoint ([#100](https://www.github.com/boson-project/buildpacks/issues/100)) ([4c38815](https://www.github.com/boson-project/buildpacks/commit/4c388153bee7c618d0ba08d14aa70bbeadb124c0))
+
 ### [0.8.2](https://www.github.com/boson-project/buildpacks/compare/v0.8.1...v0.8.2) (2021-06-21)
 
 
