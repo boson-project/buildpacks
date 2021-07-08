@@ -57,25 +57,19 @@ DIR=$(cd $(dirname $0) && pwd)
 IMAGE_DIR=$(realpath "${STACK_DIR}")
 TAG=$(basename "${IMAGE_DIR}")-${VERSION}
 STACK_ID="${ID_PREFIX}.$(basename "${IMAGE_DIR}")"
-BASE_IMAGE=${REPO_PREFIX}-base:${TAG}
 RUN_IMAGE=${REPO_PREFIX}-run:${TAG}
 BUILD_IMAGE=${REPO_PREFIX}-build:${TAG}
 
-if [ -d "${IMAGE_DIR}/base" ] ;  then
-  docker build -t "${BASE_IMAGE}" "${IMAGE_DIR}/base"
-fi
-
 echo "BUILDING ${BUILD_IMAGE}..."
-docker build --build-arg "base_image=${BASE_IMAGE}" --build-arg "stack_id=${STACK_ID}" --build-arg "version=${VERSION}" -t "${BUILD_IMAGE}"  "${IMAGE_DIR}/build"
+docker build --build-arg "stack_id=${STACK_ID}" --build-arg "version=${VERSION}" -t "${BUILD_IMAGE}"  "${IMAGE_DIR}/build"
 
 echo "BUILDING ${RUN_IMAGE}..."
-docker build --build-arg "base_image=${BASE_IMAGE}" --build-arg "stack_id=${STACK_ID}" --build-arg "version=${VERSION}" -t "${RUN_IMAGE}" "${IMAGE_DIR}/run"
+docker build --build-arg "stack_id=${STACK_ID}" --build-arg "version=${VERSION}" -t "${RUN_IMAGE}" "${IMAGE_DIR}/run"
 
 echo
 echo "STACK BUILT!"
 echo
 echo "Stack ID: ${STACK_ID}"
 echo "Images:"
-for IMAGE in "${BASE_IMAGE}" "${BUILD_IMAGE}" "${RUN_IMAGE}"; do
-  echo "    ${IMAGE}"
-done
+echo "    ${BUILD_IMAGE}"
+echo "    ${RUN_IMAGE}"
