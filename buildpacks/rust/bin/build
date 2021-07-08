@@ -27,6 +27,7 @@ cache = false
 EOF
 
 cp "${target_dir}/release/function" "${app_layer}/function"
+rm -f func.yaml
 
 cat > "$layers_dir/launch.toml" << EOF
 [[processes]]

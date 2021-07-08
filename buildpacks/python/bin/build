@@ -21,6 +21,7 @@ TOML
 # Install function
 echo "---> Installing function"
 ls -l ${build_dir}
+rm -f ${build_dir}/func.yaml
 cp -r ${build_dir}/* ${app_layer}
 
 # Install or reuse dependencies

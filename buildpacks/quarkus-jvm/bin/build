@@ -36,7 +36,7 @@ TOML
 cp "${runner_jar}" "${app_layer}/app.jar"
 cp "${lib}" "${app_layer}" -r
 
-rm -fr target src pom.xml
+rm -fr target src pom.xml func.yaml
 
 cat <<TOML > "${layers_dir}/launch.toml"
 [[processes]]
