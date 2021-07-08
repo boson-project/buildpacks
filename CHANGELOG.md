@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.8.4](https://www.github.com/boson-project/buildpacks/compare/v0.8.3...v0.8.4) (2021-07-08)
+
+
+### Bug Fixes
+
+* use non-root user ([50938dd](https://www.github.com/boson-project/buildpacks/commit/50938dda3eff6b4e3cd3968d13d4e71d2d4d1afb))
+
 ### [0.8.3](https://www.github.com/boson-project/buildpacks/compare/v0.8.2...v0.8.3) (2021-06-22)
 
 
