@@ -22,7 +22,7 @@ SPRINGBOOT_BUILDPACK_REPO := quay.io/boson/faas-springboot-bp
 PYTHON_BUILDPACK_REPO := quay.io/boson/faas-python-bp
 RUST_BUILDPACK_REPO := quay.io/boson/faas-rust-bp
 
-.PHONY: stacks buildpacks builders
+.PHONY: stacks buildpacks builders test
 
 all: stacks buildpacks builders
 
@@ -60,6 +60,15 @@ builders:
 	$(PACK_CMD) builder create --pull-policy=never $(RUST_BUILDER_REPO):$(VERSION_TAG) --config $$TMP_BLDRS/rust.toml -v && \
 	rm -fr $$TMP_BLDRS
 
+bin/func_stable:
+	test/install_func_stable.sh
+
+bin/func_snapshot:
+	test/install_func_snapshot.sh
+
+test: bin/func_stable bin/func_snapshot
+	test/test_builders.go $(VERSION_TAG)
+
 publish:
 	docker push $(BASE_REPO):ubi8-minimal-$(VERSION_TAG)
 	docker push $(BASE_REPO):ubi8-$(VERSION_TAG)
@@ -76,3 +85,6 @@ publish:
 		    docker push $$img:latest; \
 		fi \
 	done
+
+clean:
+	rm bin/*
