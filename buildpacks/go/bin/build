@@ -23,9 +23,6 @@ EOF
 
 cp $build_dir/bin/faas "$app_layer/faas"
 
-# REMOVE SOURCE CODE FROM FINAL CONTAINER
-# rm -rf $build_dir/*
-
 # LAUNCHER
 cat > "$layers_dir/launch.toml" << EOF
 [[processes]]
