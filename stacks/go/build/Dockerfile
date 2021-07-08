@@ -8,3 +8,4 @@ LABEL io.buildpacks.stack.id=${stack_id}
 # Install Golang
 USER root
 RUN dnf install -y golang
+USER cnb

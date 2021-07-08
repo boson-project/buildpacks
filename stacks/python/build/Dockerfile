@@ -9,3 +9,4 @@ LABEL io.buildpacks.stack.id=${stack_id}
 USER root
 COPY ./python.module /etc/dnf/modules.d
 RUN dnf install --nodocs -y python38 tar
+USER cnb
