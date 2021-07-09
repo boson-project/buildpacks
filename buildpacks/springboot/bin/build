@@ -38,7 +38,9 @@ TOML
 
 cp "${runner_jar}" "${app_layer}/app.jar"
 
-rm -fr target src pom.xml func.yaml
+# Clean up build dir
+chmod u+w -R $build_dir
+rm -fr $build_dir/* $build_dir/.[a-z]*
 
 cat <<TOML > "${layers_dir}/launch.toml"
 [[processes]]

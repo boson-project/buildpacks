@@ -15,8 +15,7 @@ install() {
   rm func.yaml
   cp -r "$build_dir"/* $layer_dir
   cp -r "$build_dir"/.invoker $layer_dir
-  rm -rf "$build_dir"/* "$build_dir"/.*
-  
+
   echo "cache = false" > "${layer_dir}.toml"
   echo "build = false" >> "${layer_dir}.toml"
   echo "launch = true" >> "${layer_dir}.toml"

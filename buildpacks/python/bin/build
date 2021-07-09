@@ -29,6 +29,10 @@ echo "---> Installing or reusing runtime dependencies"
 environments_layer="${layers_dir}/environments"
 install_or_reuse_deps ${environments_layer} ${app_layer}/requirements.txt
 
+# Clean up build dir
+chmod u+w -R $build_dir
+rm -fr $build_dir/* $build_dir/.[a-z]*
+
 cat <<TOML > "${layers_dir}/launch.toml"
 [[processes]]
 type = "web"

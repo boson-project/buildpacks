@@ -37,6 +37,10 @@ log_info "Function path ${fn_path}"
 
 install $build_dir "${layers_dir}/app"
 
+# Clean up build dir
+chmod u+w -R $build_dir
+rm -fr $build_dir/* $build_dir/.[a-z]*
+
 cat <<TOML > "${layers_dir}/launch.toml"
 [[processes]]
 type = "web"
