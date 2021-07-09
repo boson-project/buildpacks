@@ -28,7 +28,6 @@ all: stacks buildpacks builders
 
 stacks:
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/ubi8
-	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/ubi8-minimal
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/nodejs
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/go
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/jvm
