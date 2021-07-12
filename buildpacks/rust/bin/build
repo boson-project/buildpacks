@@ -4,7 +4,7 @@ set -euo pipefail
 echo "---> Rust Buildpack"
 
 layers_dir="$1"
-
+build_dir=$(pwd)
 deps_dir="${layers_dir}/deps"
 
 mkdir -p "${deps_dir}"
@@ -27,6 +27,9 @@ cache = false
 EOF
 
 cp "${target_dir}/release/function" "${app_layer}/function"
+# Clean up build dir
+chmod u+w -R $build_dir
+rm -fr $build_dir/* $build_dir/.[a-z]*
 
 cat > "$layers_dir/launch.toml" << EOF
 [[processes]]

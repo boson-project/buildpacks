@@ -22,6 +22,8 @@ cache = false
 EOF
 
 cp $build_dir/bin/faas "$app_layer/faas"
+chmod u+w -R $build_dir
+rm -fr $build_dir/* $build_dir/.[a-z]*
 
 # LAUNCHER
 cat > "$layers_dir/launch.toml" << EOF

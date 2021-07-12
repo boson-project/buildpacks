@@ -7,10 +7,8 @@ echo "---> Node.js Functions Buildpack"
 bp_dir=$(cd "$(dirname "$0")"/..; pwd)
 build_dir=$(pwd)
 layers_dir=$1
-platform_dir=$2
 
 source "$bp_dir/lib/build.sh"
-rm -rf "$build_dir/node_modules"
 
 install_or_reuse_tools "$layers_dir/tools"
 export PATH=$layers_dir/tools/bin:$PATH
@@ -37,8 +35,14 @@ if [ -f package.json ] ; then
 fi
 log_info "Function path ${fn_path}"
 
+install $build_dir "${layers_dir}/app"
+
+# Clean up build dir
+chmod u+w -R $build_dir
+rm -fr $build_dir/* $build_dir/.[a-z]*
+
 cat <<TOML > "${layers_dir}/launch.toml"
 [[processes]]
 type = "web"
-command = "cd .invoker && FUNCTION_PATH=${fn_path} npm start"
+command = "cd ${layers_dir}/app/.invoker && FUNCTION_PATH=${fn_path} npm start"
 TOML

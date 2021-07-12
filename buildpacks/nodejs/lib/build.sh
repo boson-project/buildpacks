@@ -5,6 +5,22 @@ set -e
 bp_dir=$(cd "$(dirname "$BASH_SOURCE")"; cd ..; pwd)
 source "${bp_dir}/lib/util.sh"
 
+install() {
+  local build_dir=$1
+  local layer_dir=$2
+
+  log_info "Installing function in ${layer_dir}"
+  mkdir -p $layer_dir
+
+  rm func.yaml
+  cp -r "$build_dir"/* $layer_dir
+  cp -r "$build_dir"/.invoker $layer_dir
+
+  echo "cache = false" > "${layer_dir}.toml"
+  echo "build = false" >> "${layer_dir}.toml"
+  echo "launch = true" >> "${layer_dir}.toml"
+}
+
 install_or_reuse_tools() {
   local layer_dir=$1
   touch "${layer_dir}.toml"

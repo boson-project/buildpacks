@@ -33,7 +33,9 @@ cache = false
 TOML
 
 cp "${app}" "${app_layer}/application"
-rm -fr target src pom.xml
+# Clean up build dir
+chmod u+w -R $build_dir
+rm -fr $build_dir/* $build_dir/.[a-z]*
 
 cat <<TOML > "${layers_dir}/launch.toml"
 [[processes]]
