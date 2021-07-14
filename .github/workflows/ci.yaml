@@ -36,7 +36,7 @@ jobs:
             return github.repos.getReleaseByTag({
                 owner: "buildpacks",
                 repo: "pack",
-                tag: "v0.16.0"
+                tag: "v0.18.1"
             }).then(result => {
                 return result.data.assets
                   .filter(a => a.name.includes("linux"))
