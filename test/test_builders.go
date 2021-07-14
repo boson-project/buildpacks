@@ -270,9 +270,10 @@ func getLifecycleVersion(builderImage string) (string, error) {
 	pr, pw := io.Pipe()
 	decoder := json.NewDecoder(pr)
 
+	errOut := bytes.NewBuffer(nil)
 	cmd := exec.Command("docker", "image", "inspect", builderImage)
 	cmd.Stdout = pw
-	cmd.Stderr = pw
+	cmd.Stderr = errOut
 
 	err := cmd.Start()
 	if err != nil {
@@ -286,7 +287,7 @@ func getLifecycleVersion(builderImage string) (string, error) {
 
 	err = cmd.Wait()
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("failed to get builder's lifecycle version: %w, (stderr: %q)", err, errOut.String())
 	}
 
 	var metadataStr string
