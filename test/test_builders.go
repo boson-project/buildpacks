@@ -79,14 +79,17 @@ func runTests(ctx context.Context, version string) error {
 	}
 
 	lifecycleVersion := make(map[string]bool)
+	builderToLifecycle := make(map[string]string)
 
 	for _, builder := range builders {
 		v, err := getLifecycleVersion(builder.BuilderImage)
 		if err != nil {
 			return err
 		}
+		lifecycleImage := "quay.io/boson/lifecycle:" + v
+		builderToLifecycle[builder.BuilderImage] = lifecycleImage
 		if _, ok := lifecycleVersion[v]; !ok {
-			cmd := exec.CommandContext(ctx, "docker", "pull", "buildpacksio/lifecycle:" + v)
+			cmd := exec.CommandContext(ctx, "docker", "pull", lifecycleImage)
 			cmd.Stdout = os.Stdout
 			cmd.Stderr = os.Stdout
 			err := cmd.Run()
@@ -137,10 +140,11 @@ func runTests(ctx context.Context, version string) error {
 	for _, funcBinary := range funcBinaries {
 		for _, builder := range builders {
 			builderImage := builder.BuilderImage
+			lifecycleImage := builderToLifecycle[builderImage]
 			for _, runtime := range builder.Runtimes {
 				for _, template := range templates {
 					fnName := fmt.Sprintf("fn-%s-%s-%d", runtime, template, fnNo)
-					report := runTest(ctx, packCmd, funcBinary, builderImage, runtime, template, fnName)
+					report := runTest(ctx, packCmd, funcBinary, builderImage, lifecycleImage, runtime, template, fnName)
 					printTestReport(report)
 					if len(report.Errors) > 0 {
 						return fmt.Errorf("somet test failed")
@@ -163,7 +167,7 @@ type testReport struct {
 	Duration     time.Duration
 }
 
-func runTest(ctx context.Context, packCmd, funcBinary, builderImage, runtime, template, fnName string) (report testReport) {
+func runTest(ctx context.Context, packCmd, funcBinary, builderImage, lifecycleImage, runtime, template, fnName string) (report testReport) {
 
 	output := bytes.NewBuffer(nil)
 	report = testReport{
@@ -205,6 +209,7 @@ func runTest(ctx context.Context, packCmd, funcBinary, builderImage, runtime, te
 		"--trust-builder=false",
 		"build", repo+"/"+fnName+":latest",
 		"--builder", builderImage,
+		"--lifecycle-image", lifecycleImage,
 		"--pull-policy=never",
 		"--verbose",
 		"--path", fnName)
@@ -219,6 +224,7 @@ func runTest(ctx context.Context, packCmd, funcBinary, builderImage, runtime, te
 		"--trust-builder=true",
 		"build", repo+"/"+fnName+":latest",
 		"--builder", builderImage,
+		"--lifecycle-image", lifecycleImage,
 		"--pull-policy=never",
 		"--verbose",
 		"--path", fnName)
