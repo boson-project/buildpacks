@@ -82,7 +82,7 @@ func runTests(ctx context.Context, version string) error {
 	builderToLifecycle := make(map[string]string)
 
 	for _, builder := range builders {
-		v, err := getLifecycleVersion(builder.BuilderImage)
+		v, err := getLifecycleVersion(ctx, builder.BuilderImage)
 		if err != nil {
 			return err
 		}
@@ -185,10 +185,12 @@ func runTest(ctx context.Context, packCmd, funcBinary, builderImage, lifecycleIm
 	}()
 
 	runCmd := func(name string, arg ...string) error {
+
 		cmdCtx, cmdCancel := context.WithCancel(context.Background())
 		cmd := exec.CommandContext(cmdCtx, name, arg...)
 		cmd.Stdout = output
-		cmd.Stderr = output
+		errOut := bytes.NewBuffer(nil)
+		cmd.Stderr = io.MultiWriter(output, errOut)
 		cmd.Start()
 		go func() {
 			<-ctx.Done()
@@ -196,7 +198,11 @@ func runTest(ctx context.Context, packCmd, funcBinary, builderImage, lifecycleIm
 			time.Sleep(time.Second * 10)
 			cmdCancel()
 		}()
-		return cmd.Wait()
+		err := cmd.Wait()
+		if err != nil {
+			return fmt.Errorf("%w (stderr: %q)", err, errOut.String())
+		}
+		return nil
 	}
 
 	err := runCmd(
@@ -261,7 +267,7 @@ func printTestReport(report testReport) {
 	fmt.Fprintln(os.Stdout, "::endgroup::")
 }
 
-func getLifecycleVersion(builderImage string) (string, error) {
+func getLifecycleVersion(ctx context.Context, builderImage string) (string, error) {
 	var inspectData []struct {
 		Config struct {
 			Labels map[string]string
@@ -271,7 +277,7 @@ func getLifecycleVersion(builderImage string) (string, error) {
 	decoder := json.NewDecoder(pr)
 
 	errOut := bytes.NewBuffer(nil)
-	cmd := exec.Command("docker", "image", "inspect", builderImage)
+	cmd := exec.CommandContext(ctx, "docker", "image", "inspect", builderImage)
 	cmd.Stdout = pw
 	cmd.Stderr = errOut
 
@@ -287,7 +293,7 @@ func getLifecycleVersion(builderImage string) (string, error) {
 
 	err = cmd.Wait()
 	if err != nil {
-		return "", fmt.Errorf("failed to get builder's lifecycle version: %w, (stderr: %q)", err, errOut.String())
+		return "", fmt.Errorf("failed to get builder's lifecycle version: %w (stderr: %q)", err, errOut.String())
 	}
 
 	var metadataStr string
