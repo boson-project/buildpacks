@@ -35,7 +35,7 @@ func main() {
 	version := os.Args[1]
 	err := runTests(ctx, version)
 	if err != nil {
-		fmt.Fprintf(os.Stdout, "::error::%s\n", err.Error())
+		fmt.Printf("::error::%s\n", err.Error())
 		os.Exit(1)
 	}
 }
@@ -252,19 +252,19 @@ func runTest(ctx context.Context, packCmd, funcBinary, builderImage, lifecycleIm
 }
 
 func printTestReport(report testReport) {
-	fmt.Fprintf(os.Stdout, "[TEST REPORT]\nbuilder: %s\nruntime: %s\ntemplate: %s\nfunc: %s\nduration: %s\n",
+	fmt.Printf("[TEST REPORT]\nbuilder: %s\nruntime: %s\ntemplate: %s\nfunc: %s\nduration: %s\n",
 		report.BuilderImage, report.Runtime, report.Template, report.FuncBinary, report.Duration)
 	if len(report.Errors) > 0 {
-		fmt.Fprintln(os.Stdout, "❌ Failure")
+		fmt.Println("❌ Failure")
 		for _, e := range report.Errors {
-			fmt.Fprintf(os.Stdout, "::error::%s\n", e.Error())
+			fmt.Printf("::error::%s\n", e.Error())
 		}
 	} else {
-		fmt.Fprintln(os.Stdout, "✅ Success")
+		fmt.Println("✅ Success")
 	}
-	fmt.Fprintln(os.Stdout, "::group::Output")
-	fmt.Fprintln(os.Stdout, string(report.Output))
-	fmt.Fprintln(os.Stdout, "::endgroup::")
+	fmt.Println("::group::Output")
+	fmt.Println(string(report.Output))
+	fmt.Println("::endgroup::")
 }
 
 func getLifecycleVersion(ctx context.Context, builderImage string) (string, error) {
