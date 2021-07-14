@@ -22,6 +22,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
+
       - name: Determine download URL for latest pack
         id: pack-download-url
         uses: actions/github-script@v2
@@ -31,7 +36,7 @@ jobs:
             return github.repos.getReleaseByTag({
                 owner: "buildpacks",
                 repo: "pack",
-                tag: "v0.16.0"
+                tag: "v0.18.1"
             }).then(result => {
                 return result.data.assets
                   .filter(a => a.name.includes("linux"))
@@ -45,6 +50,12 @@ jobs:
 
       - name: Build
         run: PACK_CMD=./pack make
+
+      - name: Install func
+        run: make bin/func_stable && make bin/func_snapshot
+
+      - name: Test
+        run: make test
 
       - name: Push Images
         if: ${{ steps.release.outputs.release_created }}
