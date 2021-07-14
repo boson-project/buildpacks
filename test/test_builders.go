@@ -185,10 +185,18 @@ func runTest(ctx context.Context, packCmd, funcBinary, builderImage, lifecycleIm
 	}()
 
 	runCmd := func(name string, arg ...string) error {
-		cmd := exec.CommandContext(ctx, name, arg...)
+		cmdCtx, cmdCancel := context.WithCancel(context.Background())
+		cmd := exec.CommandContext(cmdCtx, name, arg...)
 		cmd.Stdout = output
 		cmd.Stderr = output
-		return cmd.Run()
+		cmd.Start()
+		go func() {
+			<-ctx.Done()
+			cmd.Process.Signal(os.Interrupt)
+			time.Sleep(time.Second * 10)
+			cmdCancel()
+		}()
+		return cmd.Wait()
 	}
 
 	err := runCmd(
