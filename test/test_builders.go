@@ -144,11 +144,10 @@ func runTests(ctx context.Context, version string) error {
 			for _, runtime := range builder.Runtimes {
 				for _, template := range templates {
 					fnName := fmt.Sprintf("fn-%s-%s-%d", runtime, template, fnNo)
-					report := runTest(ctx, packCmd, funcBinary, builderImage, lifecycleImage, runtime, template, fnName)
-					printTestReport(report)
-					if len(report.Errors) > 0 {
-						return fmt.Errorf("somet test failed")
+					if !runTest(ctx, packCmd, funcBinary, builderImage, lifecycleImage, runtime, template, fnName) {
+						return fmt.Errorf("some test failed")
 					}
+
 					fnNo++
 				}
 			}
@@ -157,40 +156,39 @@ func runTests(ctx context.Context, version string) error {
 	return nil
 }
 
-type testReport struct {
-	BuilderImage string
-	Runtime      string
-	Template     string
-	FuncBinary   string
-	Errors       []error
-	Output       []byte
-	Duration     time.Duration
-}
-
-func runTest(ctx context.Context, packCmd, funcBinary, builderImage, lifecycleImage, runtime, template, fnName string) (report testReport) {
-
-	output := bytes.NewBuffer(nil)
-	report = testReport{
-		BuilderImage: builderImage,
-		Runtime:      runtime,
-		Template:     template,
-		FuncBinary:   funcBinary,
-	}
-
+func runTest(ctx context.Context, packCmd, funcBinary, builderImage, lifecycleImage, runtime, template, fnName string) (succeeded bool) {
 	start := time.Now()
 
+	fmt.Printf("[RUNNING TEST]\nbuilder: %s\nruntime: %s\ntemplate: %s\nfunc: %s\n",
+		builderImage, runtime, template, funcBinary)
+
+	var errs []error
+
 	defer func() {
-		report.Output = output.Bytes()
-		report.Duration = time.Since(start)
+		fmt.Printf("duration: %s\n", time.Since(start))
+		if len(errs) > 0 {
+			fmt.Println("❌ Failure")
+			for _, e := range errs {
+				fmt.Printf("::error::%s\n", e.Error())
+			}
+			succeeded = false
+		} else {
+			fmt.Println("✅ Success")
+			succeeded = true
+		}
 	}()
+
+
+	fmt.Println("::group::Output")
+	defer fmt.Println("::endgroup::")
 
 	runCmd := func(name string, arg ...string) error {
 
 		cmdCtx, cmdCancel := context.WithCancel(context.Background())
 		cmd := exec.CommandContext(cmdCtx, name, arg...)
-		cmd.Stdout = output
+		cmd.Stdout = os.Stdout
 		errOut := bytes.NewBuffer(nil)
-		cmd.Stderr = io.MultiWriter(output, errOut)
+		cmd.Stderr = io.MultiWriter(os.Stdout, errOut)
 		cmd.Start()
 		go func() {
 			<-ctx.Done()
@@ -213,8 +211,8 @@ func runTest(ctx context.Context, packCmd, funcBinary, builderImage, lifecycleIm
 		"--verbose")
 	if err != nil {
 		e := fmt.Errorf("failed to create a function: %w", err)
-		fmt.Fprintln(output, e)
-		report.Errors = append(report.Errors, e)
+		fmt.Println(e)
+		errs = append(errs, e)
 		return
 	}
 
@@ -229,8 +227,8 @@ func runTest(ctx context.Context, packCmd, funcBinary, builderImage, lifecycleIm
 		"--path", fnName)
 	if err != nil {
 		e := fmt.Errorf("failed to build the function using `pack` (--trust-builder=false): %w", err)
-		fmt.Fprintln(output, e)
-		report.Errors = append(report.Errors, e)
+		fmt.Println(e)
+		errs = append(errs, e)
 	}
 
 	err = runCmd(
@@ -244,27 +242,11 @@ func runTest(ctx context.Context, packCmd, funcBinary, builderImage, lifecycleIm
 		"--path", fnName)
 	if err != nil {
 		e := fmt.Errorf("failed to build the function using `pack` (--trust-builder=true): %w", err)
-		fmt.Fprintln(output, e)
-		report.Errors = append(report.Errors, e)
+		fmt.Println(e)
+		errs = append(errs, e)
 	}
 
 	return
-}
-
-func printTestReport(report testReport) {
-	fmt.Printf("[TEST REPORT]\nbuilder: %s\nruntime: %s\ntemplate: %s\nfunc: %s\nduration: %s\n",
-		report.BuilderImage, report.Runtime, report.Template, report.FuncBinary, report.Duration)
-	if len(report.Errors) > 0 {
-		fmt.Println("❌ Failure")
-		for _, e := range report.Errors {
-			fmt.Printf("::error::%s\n", e.Error())
-		}
-	} else {
-		fmt.Println("✅ Success")
-	}
-	fmt.Println("::group::Output")
-	fmt.Println(string(report.Output))
-	fmt.Println("::endgroup::")
 }
 
 func getLifecycleVersion(ctx context.Context, builderImage string) (string, error) {
