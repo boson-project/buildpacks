@@ -35,7 +35,7 @@ func main() {
 	version := os.Args[1]
 	err := runTests(ctx, version)
 	if err != nil {
-		fmt.Fprintf(os.Stdout, "::error::%s", err.Error())
+		fmt.Fprintf(os.Stdout, "::error::%s\n", err.Error())
 		os.Exit(1)
 	}
 }
