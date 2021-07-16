@@ -36,13 +36,13 @@ stacks:
 	./stacks/build-stack.sh -v $(VERSION_TAG) stacks/rust
 
 buildpacks:
-	$(PACK_CMD) buildpack package $(NODEJS_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/nodejs/package.toml
-	$(PACK_CMD) buildpack package $(GO_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/go/package.toml
-	$(PACK_CMD) buildpack package $(QUARKUS_JVM_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/quarkus-jvm/package.toml
-	$(PACK_CMD) buildpack package $(QUARKUS_NATIVE_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/quarkus-native/package.toml
-	$(PACK_CMD) buildpack package $(SPRINGBOOT_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/springboot/package.toml
-	$(PACK_CMD) buildpack package $(PYTHON_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/python/package.toml
-	$(PACK_CMD) buildpack package $(RUST_BUILDPACK_REPO):$(VERSION_TAG) --config ./packages/rust/package.toml
+	$(PACK_CMD) buildpack package $(NODEJS_BUILDPACK_REPO):$(VERSION_TAG) --path ./buildpacks/nodejs/
+	$(PACK_CMD) buildpack package $(GO_BUILDPACK_REPO):$(VERSION_TAG) --path ./buildpacks/go/
+	$(PACK_CMD) buildpack package $(QUARKUS_JVM_BUILDPACK_REPO):$(VERSION_TAG) --path ./buildpacks/quarkus-jvm/
+	$(PACK_CMD) buildpack package $(QUARKUS_NATIVE_BUILDPACK_REPO):$(VERSION_TAG) --path ./buildpacks/quarkus-native/
+	$(PACK_CMD) buildpack package $(SPRINGBOOT_BUILDPACK_REPO):$(VERSION_TAG) --path ./buildpacks/springboot/
+	$(PACK_CMD) buildpack package $(PYTHON_BUILDPACK_REPO):$(VERSION_TAG) --path ./buildpacks/python/
+	$(PACK_CMD) buildpack package $(RUST_BUILDPACK_REPO):$(VERSION_TAG) --path ./buildpacks/rust/
 
 builders:
 	TMP_BLDRS=$(shell mktemp -d) && \
