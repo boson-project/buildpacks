@@ -49,13 +49,13 @@ jobs:
           tar -xvf pack.tgz
 
       - name: Build
-        run: PACK_CMD=./pack make
+        run: PACK_CMD="$(pwd)/pack" make
 
       - name: Install func
         run: make bin/func_stable && make bin/func_snapshot
 
       - name: Test
-        run: make test
+        run: PACK_CMD="$(pwd)/pack" make test
 
       - name: Push Images
         if: ${{ steps.release.outputs.release_created }}
