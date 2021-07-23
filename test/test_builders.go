@@ -104,8 +104,11 @@ func runTests(ctx context.Context, version string) error {
 	if err != nil {
 		return err
 	}
-
-	packCmd := filepath.Join(wd, "pack")
+	
+	packCmd := "pack"
+	if pc, ok := os.LookupEnv("PACK_CMD"); ok {
+		packCmd = pc
+	}
 
 	funcBinaries := []string{
 		filepath.Join(wd, "bin", "func_snapshot"),
