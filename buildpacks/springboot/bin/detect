@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
+if [[! -f func.yaml ]]; then
+  exit 100
+fi
+
 dep_xpath='/*[local-name()="project"]'
 dep_xpath+='/*[local-name()="dependencies"]'
 dep_xpath+='/*[local-name()="dependency"]'
