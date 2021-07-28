@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-if [[ ! -f Cargo.toml ]] ; then
+if [[ ! -f func.yaml || ! -f Cargo.toml ]] ; then
   exit 100
 fi

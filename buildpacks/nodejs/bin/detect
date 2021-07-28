@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-set -eo pipefail
+set -eo pipefail 
 
 if [[ ! -f package.json ]] ; then
-  if [[ ! -f index.js ]] ; then
+  if [[ ! -f func.yaml || ! -f index.js ]] ; then
     exit 100
   fi
 fi

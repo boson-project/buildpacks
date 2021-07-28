@@ -2,7 +2,7 @@
 set -eo pipefail
 
 if [[ ! -d __pycache__ ]] ; then
-  if [[ ! -f func.py ]] ; then
+  if [[ ! -f func.yaml || ! -f func.py ]] ; then
     exit 100
   fi
 fi
