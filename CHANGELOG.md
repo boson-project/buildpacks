@@ -1,5 +1,13 @@
 # Changelog
 
+### [0.8.5](https://www.github.com/boson-project/buildpacks/compare/v0.8.4...v0.8.5) (2021-08-05)
+
+
+### Bug Fixes
+
+* bad pack cmd exec ([f71dc84](https://www.github.com/boson-project/buildpacks/commit/f71dc841784c12788f1db7d844aa0daa4d3562d8))
+* install gcc in python builder ([#112](https://www.github.com/boson-project/buildpacks/issues/112)) ([48ac6b6](https://www.github.com/boson-project/buildpacks/commit/48ac6b613516d1646f34e6a67a9f01effe824318))
+
 ### [0.8.4](https://www.github.com/boson-project/buildpacks/compare/v0.8.3...v0.8.4) (2021-07-08)
 
 
