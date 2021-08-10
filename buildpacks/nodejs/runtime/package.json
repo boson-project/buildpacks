@@ -6,16 +6,10 @@
   "main": "server.js",
   "scripts": {
     "debug": "node --inspect=0.0.0.0 server.js",
-    "start": "node server.js",
-    "test": "FUNCTION_PATH=./test/fixtures tape test/test.js | tap-spec"
+    "start": "node server.js"
   },
   "dependencies": {
-    "faas-js-runtime": "^0.7.1",
-    "death": "^1.1.0"
-  },
-  "devDependencies": {
-    "supertest": "^4.0.2",
-    "tap-spec": "^5.0.0",
-    "tape": "^4.11.0"
+    "death": "^1.1.0",
+    "faas-js-runtime": "^0.7.1"
   }
 }

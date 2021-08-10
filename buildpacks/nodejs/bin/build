@@ -44,5 +44,5 @@ rm -fr $build_dir/* $build_dir/.[a-z]*
 cat <<TOML > "${layers_dir}/launch.toml"
 [[processes]]
 type = "web"
-command = "cd ${layers_dir}/app/.invoker && FUNCTION_PATH=${fn_path} npm start"
+command = "cd ${layers_dir}/app/.invoker && FUNC_PATH=${fn_path} npm start"
 TOML

@@ -2,11 +2,14 @@
 const path      = require('path');
 const { start } = require('faas-js-runtime');
 const ON_DEATH  = require('death')({ uncaughtException: true });
-const code      = require(extractFullPath(process.env.FUNCTION_PATH || '../'));
+
+const functionPath = extractFullPath(process.env.FUNCTION_PATH || process.env.FUNC_PATH || '../');
+const code      = require(functionPath);
 
 const options = {
-  listenPort: process.env.FUNC_PORT || 8080,
-  logLevel: process.env.FUNC_LOG_LEVEL || 'warn'
+  listenPort: process.env.FUNC_PORT,
+  logLevel: process.env.FUNC_LOG_LEVEL,
+  config: functionPath
 }
 
 let func;
