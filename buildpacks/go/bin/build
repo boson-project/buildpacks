@@ -10,6 +10,10 @@ layers_dir="$1"
 # INJECT INVOCATION SCAFFOLDING (main)
 cp -r $bp_dir/faas $build_dir/faas
 mkdir -p $build_dir/bin
+
+echo "  Fetching framework dependencies"
+go get function/faas
+
 go build -o $build_dir/bin/faas $build_dir/faas
 
 # PLACE COMPILED BINARY IN APP LAYER FOR LAUNCH
