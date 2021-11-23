@@ -117,7 +117,7 @@ func runTests(ctx context.Context, version string) error {
 	}
 	templates := []string{
 		"http",
-		"events",
+		"cloudevents",
 	}
 
 	oldWD, err := os.Getwd()
@@ -209,7 +209,7 @@ func runTest(ctx context.Context, packCmd, funcBinary, builderImage, lifecycleIm
 	err := runCmd(
 		funcBinary,
 		"create", fnName,
-		"--runtime", runtime,
+		"--language", runtime,
 		"--template", template,
 		"--verbose")
 	if err != nil {
