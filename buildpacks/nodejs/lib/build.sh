@@ -14,7 +14,6 @@ install() {
 
   rm func.yaml
   cp -r "$build_dir"/* $layer_dir
-  cp -r "$build_dir"/.invoker $layer_dir
 
   echo "cache = false" > "${layer_dir}.toml"
   echo "build = false" >> "${layer_dir}.toml"
@@ -43,21 +42,6 @@ install_or_reuse_tools() {
   echo "cache = true" > "${layer_dir}.toml"
   echo "build = true" >> "${layer_dir}.toml"
   echo "launch = false" >> "${layer_dir}.toml"
-}
-
-install_invoker() {
-  local bp_dir=$1
-  local build_dir=$2
-  local layer_dir=$3
-
-  touch "$layer_dir.toml"
-  mkdir -p "${layer_dir}"
-
-  # copy invoker source to the build directory
-  log_info "Installing function invoker"
-  mkdir -p ${build_dir}
-  cp ${bp_dir}/runtime/package*.json ${bp_dir}/runtime/server.js ${build_dir}
-  install_or_reuse_node_modules ${build_dir} ${layer_dir}
 }
 
 install_modules() {

@@ -13,7 +13,6 @@ source "$bp_dir/lib/build.sh"
 install_or_reuse_tools "$layers_dir/tools"
 export PATH=$layers_dir/tools/bin:$PATH
 
-install_invoker "$bp_dir" "$build_dir/.invoker" "$layers_dir/.invoker"
 install_or_reuse_node_modules "$build_dir" "$layers_dir/node_modules"
 
 # TypeScript functions will have a build script
@@ -44,5 +43,5 @@ rm -fr $build_dir/* $build_dir/.[a-z]*
 cat <<TOML > "${layers_dir}/launch.toml"
 [[processes]]
 type = "web"
-command = "cd ${layers_dir}/app/.invoker && FUNC_PATH=${fn_path} npm start"
+command = "cd ${layers_dir}/app && FUNC_PATH=${fn_path} npm start"
 TOML
