@@ -14,3 +14,6 @@ id = "dev.boson.stacks.python"
 run-image = "quay.io/boson/faas-stack-run:python-{{VERSION}}"
 # This image is used at build-time
 build-image = "quay.io/boson/faas-stack-build:python-{{VERSION}}"
+
+[lifecycle]
+uri = "file://lifecycle/lifecycle-v0.13.0+linux.x86-64.tgz"

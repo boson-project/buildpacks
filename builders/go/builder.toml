@@ -10,3 +10,6 @@ id = "dev.boson.go"
 id = "dev.boson.stacks.go"
 build-image = "quay.io/boson/faas-stack-build:go-{{VERSION}}"
 run-image = "quay.io/boson/faas-stack-run:go-{{VERSION}}"
+
+[lifecycle]
+uri = "file://lifecycle/lifecycle-v0.13.0+linux.x86-64.tgz"

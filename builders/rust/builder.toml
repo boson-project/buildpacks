@@ -10,3 +10,6 @@ id = "dev.boson.rust"
 id = "dev.boson.stacks.rust"
 build-image = "quay.io/boson/faas-stack-build:rust-{{VERSION}}"
 run-image = "quay.io/boson/faas-stack-run:rust-{{VERSION}}"
+
+[lifecycle]
+uri = "file://lifecycle/lifecycle-v0.13.0+linux.x86-64.tgz"
