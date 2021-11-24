@@ -275,6 +275,8 @@ func getLifecycleVersion(ctx context.Context, builderImage string) (string, erro
 	if err != nil {
 		return "", err
 	}
+	// we need to read rest of the output so docker comand exits
+	go io.Copy(io.Discard, pr)
 
 	err = cmd.Wait()
 	if err != nil {
