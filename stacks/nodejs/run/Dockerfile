@@ -6,8 +6,8 @@ ENV CNB_STACK_ID=${stack_id}
 LABEL io.buildpacks.stack.id=${stack_id}
 
 USER root
-COPY ./nodejs.module /etc/dnf/modules.d
-RUN microdnf install --nodocs -y nodejs tar
+RUN microdnf module enable -y nodejs:16/minimal && \
+    microdnf install --nodocs -y tar
 USER cnb
 
 ENV NODE_PATH $HOME/node_modules

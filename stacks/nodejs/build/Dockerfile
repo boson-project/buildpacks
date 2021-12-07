@@ -5,9 +5,9 @@ ARG stack_id
 ENV CNB_STACK_ID=${stack_id}
 LABEL io.buildpacks.stack.id=${stack_id}
 
-# Install Node.js and tar (needed by odo)
+# Install Node.js and build dependencies
 USER root
-COPY ./nodejs.module /etc/dnf/modules.d
-RUN dnf install --nodocs -y nodejs tar git
+RUN dnf module install -y nodejs:16 && \
+    dnf install -y --nodocs tar git
 USER cnb
 
