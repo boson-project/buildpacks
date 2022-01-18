@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.9.0](https://www.github.com/boson-project/buildpacks/compare/v0.8.4...v0.9.0) (2022-01-18)
+
+
+### Features
+
+* support for `options.config` on server start ([#115](https://www.github.com/boson-project/buildpacks/issues/115)) ([530a806](https://www.github.com/boson-project/buildpacks/commit/530a8064b55f867db50f066097accd68dc48a0b5))
+
+
+### Bug Fixes
+
+* bad pack cmd exec ([f71dc84](https://www.github.com/boson-project/buildpacks/commit/f71dc841784c12788f1db7d844aa0daa4d3562d8))
+* Go buildpack ([36a5500](https://www.github.com/boson-project/buildpacks/commit/36a55002c58ab7b570fa40f9b98839bb489bc396))
+* install gcc in python builder ([#112](https://www.github.com/boson-project/buildpacks/issues/112)) ([48ac6b6](https://www.github.com/boson-project/buildpacks/commit/48ac6b613516d1646f34e6a67a9f01effe824318))
+* use patched lifecycle ([90f753f](https://www.github.com/boson-project/buildpacks/commit/90f753f4f9b877c2be4c7aa2d8bd52b564c6aaf1))
+
 ### [0.8.4](https://www.github.com/boson-project/buildpacks/compare/v0.8.3...v0.8.4) (2021-07-08)
 
 
