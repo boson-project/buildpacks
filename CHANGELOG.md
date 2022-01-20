@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.9.1](https://www.github.com/boson-project/buildpacks/compare/v0.9.0...v0.9.1) (2022-01-20)
+
+
+### Bug Fixes
+
+* update test binaries with knative-sandbox ([#125](https://www.github.com/boson-project/buildpacks/issues/125)) ([8d2ad86](https://www.github.com/boson-project/buildpacks/commit/8d2ad86c616c70dfef24ebed2b442c0f12ac004d))
+
 ## [0.9.0](https://www.github.com/boson-project/buildpacks/compare/v0.8.4...v0.9.0) (2022-01-18)
 
 
