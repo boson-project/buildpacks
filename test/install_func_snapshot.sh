@@ -11,8 +11,8 @@ mkdir -p "$WD/bin/"
 TMP_DIR="$(mktemp -d)"
 cd "$TMP_DIR"
 go get github.com/markbates/pkger/cmd/pkger
-git clone https://github.com/boson-project/func
-cd func
+git clone https://github.com/knative-sandbox/kn-plugin-func
+cd kn-plugin-func
 make
 cp func "$WD/bin/func_snapshot"
 cd "$WD"
