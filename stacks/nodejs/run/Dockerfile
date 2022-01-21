@@ -7,7 +7,7 @@ LABEL io.buildpacks.stack.id=${stack_id}
 
 USER root
 RUN microdnf module enable -y nodejs:16/minimal && \
-    microdnf install --nodocs -y tar
+    microdnf install --nodocs -y tar node
 USER cnb
 
 ENV NODE_PATH $HOME/node_modules
