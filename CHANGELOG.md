@@ -1,5 +1,13 @@
 # Changelog
 
+### [0.9.2](https://www.github.com/boson-project/buildpacks/compare/v0.9.1...v0.9.2) (2022-01-21)
+
+
+### Bug Fixes
+
+* actually install node ([#127](https://www.github.com/boson-project/buildpacks/issues/127)) ([8daaf90](https://www.github.com/boson-project/buildpacks/commit/8daaf908cc84b9463bdce3096d02f190ce7cf4eb))
+* really install node this time ([#130](https://www.github.com/boson-project/buildpacks/issues/130)) ([225163d](https://www.github.com/boson-project/buildpacks/commit/225163d8960791a9cbee6ad54ec86bfaf6ffc432))
+
 ### [0.9.1](https://www.github.com/boson-project/buildpacks/compare/v0.9.0...v0.9.1) (2022-01-20)
 
 
