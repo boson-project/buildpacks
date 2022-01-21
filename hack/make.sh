@@ -77,7 +77,7 @@ make_publish() {
   if [[ "${VERSION}" != "tip" ]]; then
     for BUILDER in "${BUILDERS[@]}"; do
       TO_PUSH+=("$(builder_to_img "${BUILDER}" "latest")")
-      docker tag "$(builder_to_img "${BUILDER}" "${VERSION}")" "$(builder_to_img "${BUILDER}" "latest")
+      docker tag "$(builder_to_img "${BUILDER}" "${VERSION}")" "$(builder_to_img "${BUILDER}" "latest")"
     done
   fi
 
