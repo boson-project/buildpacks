@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/sh
+
 set -e
-set -o pipefail
 
 echo "$@"
 
@@ -22,26 +22,41 @@ cache = true
 TOML
 
 mvn -B -Dmaven.repo.local="${mvn_repo_layer}" package -DskipTests
-runner_jar=$(find target -maxdepth 1 -iname "*-runner.jar")
-lib=$(find target -maxdepth 1 -iname "lib")
 
-app_layer="${layers_dir}/app"
-mkdir -p "${app_layer}"
-cat <<TOML > "${app_layer}.toml"
-launch = true
-build = false
-cache = false
-TOML
+# Save Java artifact to temp dir.
+# Latter we put it back to the workspace after cleanup.
+app_tmp_dir="$(mktemp -d)"
 
-cp "${runner_jar}" "${app_layer}/app.jar"
-cp "${lib}" "${app_layer}" -r
+if [ -d "target/quarkus-app" ]; then # fast-jar
+  mv target/quarkus-app/lib/ target/quarkus-app/app/ target/quarkus-app/quarkus/ "${app_tmp_dir}/"
+  mv target/quarkus-app/quarkus-run.jar "${app_tmp_dir}/app.jar"
+else # legacy-jar or uber-jar
+  mv target/lib "${app_tmp_dir}/"
+  mv target/*-runner.jar "${app_tmp_dir}/app.jar"
+fi
 
-# Clean up build dir
-chmod u+w -R $build_dir
-rm -fr $build_dir/* $build_dir/.[a-z]*
+# Clean up the build dir.
+chmod u+w -R "$build_dir"
+rm -fr "${build_dir:?}"/* "${build_dir:?}"/.[a-z]*
+
+# Put the Java artifact back to the workspace.
+mv "${app_tmp_dir}"/* "$build_dir"
+rm -fr "${app_tmp_dir}"
 
 cat <<TOML > "${layers_dir}/launch.toml"
 [[processes]]
 type = "web"
-command = "JAVA_APP_DIR=${app_layer} run-java.sh"
+command = "JAVA_APP_DIR=\"${build_dir}\" run-java.sh"
+
+[[slices]]
+paths = ["lib"]
+
+[[slices]]
+paths = ["app.jar"]
+
+[[slices]]
+paths = ["app"]
+
+[[slices]]
+paths = ["quarkus"]
 TOML

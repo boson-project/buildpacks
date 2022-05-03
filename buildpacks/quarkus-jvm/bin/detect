@@ -1,14 +1,12 @@
-#!/usr/bin/env bash
-set -eo pipefail
+#!/bin/sh
 
-if [[! -f func.yaml ]]; then
+set -e
+
+if [ ! -f func.yaml ]; then
   exit 100
 fi
 
-dep_xpath='/*[local-name()="project"]'
-dep_xpath+='/*[local-name()="dependencies"]'
-dep_xpath+='/*[local-name()="dependency"]'
-dep_xpath+='/*[local-name()="artifactId" and contains(.,"quarkus-funqy")]'
+dep_xpath='/*[local-name()="project"]/*[local-name()="dependencies"]/*[local-name()="dependency"]/*[local-name()="artifactId" and contains(.,"quarkus-funqy")]'
 
 if ! xmllint --xpath "${dep_xpath}" pom.xml > /dev/null 2> /dev/null; then
   exit 100
