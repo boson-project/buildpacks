@@ -46,7 +46,7 @@ rm -fr "${app_tmp_dir}"
 cat <<TOML > "${layers_dir}/launch.toml"
 [[processes]]
 type = "web"
-command = "JAVA_APP_DIR=\"${build_dir}\" run-java.sh"
+command = "QUARKUS_HTTP_PORT=\${PORT:-8080} JAVA_APP_DIR=\"${build_dir}\" run-java.sh"
 
 [[slices]]
 paths = ["lib"]
