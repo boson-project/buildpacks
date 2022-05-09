@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.0](https://www.github.com/boson-project/buildpacks/compare/v0.9.2...v0.10.0) (2022-05-09)
+
+
+### Features
+
+* Quarkus improvements ([#134](https://www.github.com/boson-project/buildpacks/issues/134)) ([dccc748](https://www.github.com/boson-project/buildpacks/commit/dccc748672451c28d78cb56d7332a8b866cec03e))
+
 ### [0.9.2](https://www.github.com/boson-project/buildpacks/compare/v0.9.1...v0.9.2) (2022-01-21)
 
 
